@@ -1,0 +1,27 @@
+#summary How to use the prepackaged hale-aloha-cli-pichu "Pichu" system.
+#labels Featured
+
+*Table of Contents* 
+<wiki:toc max_depth="3" />
+
+= 0.0 Preliminaries =
+
+This guide assumes that the user has the following software installed:
+- [http://www.oracle.com/technetwork/java/javase/downloads/jre-6u29-download-513650.html Java Runtime Environment]
+
+Additionally, a Java editor (such as [http://www.eclipse.org/ Eclipse]) may be useful for editing the Robocode files to produce the desired behavior(s).
+Finally, the [http://ant.apache.org/ Apache Ant] (or equivalent) Java building software may be useful for building and checking the project for consistency.
+
+= 1.0 Download =
+
+Download the latest distribution of Pichu from the [http://code.google.com/p/hale-aloha-cli-pichu/downloads/list Downloads] page.
+
+Then, unzip the distribution. 
+
+= 2.0 Install =
+
+To install the prepackaged Pichu system, find the file named hale-aloha-cli-pichu`_`{version}.jar in the distribution (where {version} is the version of the system). 
+
+Move that file to an appropriate directory of your system.
+
+You're done!
