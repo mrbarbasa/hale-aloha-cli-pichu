@@ -1,0 +1,24 @@
+<project name="printproperty" default="foo">
+
+<target name="foo" depends="bar">
+  <echo message="foo"/>
+</target>
+
+<target name="bar" depends="baz, elmo">
+  <echo message="bar"/>
+</target>
+
+<target name="baz" depends="qux">
+  <echo message="baz"/>
+</target>
+
+<target name="qux" depends="elmo">
+  <echo message="qux"/>
+</target>
+
+<target name="elmo" depends="">
+  <echo message="elmo"/>
+</target>
+
+
+</project>

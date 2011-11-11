@@ -1,0 +1,8 @@
+<project name="printproperty" default="printproperty">
+
+<property name="foo" value="bar"/>
+<property name="foo" value="baz"/>
+<echo message="${foo}"/>
+
+
+</project>
