@@ -1,0 +1,9 @@
+<project name="jenkins" default="jenkins">
+  <description>
+    What to do under continuous integration.  Currently, do the same as verify.
+  </description>
+
+  <import file="verify.build.xml" />
+  <target name="jenkins" depends="verify" description="Verifies system."/>
+
+</project>
