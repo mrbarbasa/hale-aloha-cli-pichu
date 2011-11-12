@@ -1,4 +1,4 @@
-<project name="wattdepot-katas-mrb3" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="hale-aloha-cli-pichu" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
   <description>
   Top-level build file for the WattDepot simpleapp system. 
   The default target compiles the system.
@@ -21,7 +21,7 @@
   </target>
 
   <!-- Basic properties for this system. -->
-  <property name="system.name" value="wattdepot-katas-mrb3" />
+  <property name="system.name" value="hale-aloha-cli-pichu" />
   <property name="majorVersionNumber" value="1" />
   <property name="minorVersionNumber" value="0" />
   <tstamp>
