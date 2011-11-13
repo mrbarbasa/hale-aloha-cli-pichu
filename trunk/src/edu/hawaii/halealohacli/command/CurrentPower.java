@@ -16,6 +16,8 @@ public class CurrentPower {
   
 
   /**
+   * Checks if the connection is successfully
+   * connected to the server.
    * 
    * @param client - WattDepotClient object.
    * @param address - url address to the server.
