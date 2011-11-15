@@ -14,6 +14,29 @@ import org.wattdepot.client.WattDepotClient;
  */
 public class CurrentPower {
   
+  /**
+   * Creates a new instance of the current-power command.
+   * Just a placeholder for the code below.
+   */
+  public CurrentPower() {
+    // TODO
+  }
+  
+  /**
+   * Creates a new instance of the current-power command.
+   * 
+   * @param tower the tower specified
+   */
+  public CurrentPower(String tower) {
+    // TODO
+  }
+  
+  /**
+   * Runs this command.
+   */
+  public void run() {
+    // TODO
+  }
 
   /**
    * Checks if the connection is successfully

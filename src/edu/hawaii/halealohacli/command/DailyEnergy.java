@@ -16,6 +16,30 @@ import org.wattdepot.util.tstamp.Tstamp;
  */
 public class DailyEnergy {
   
+  /**
+   * Creates a new instance of the current-power command.
+   * Just a placeholder for the code below.
+   */
+  public DailyEnergy() {
+    // TODO
+  }
+  
+  /**
+   * Creates a new instance of the daily-energy command.
+   * 
+   * @param tower the tower specified
+   * @param date the date specified
+   */
+  public DailyEnergy(String tower, String date) {
+    // TODO
+  }
+  
+  /**
+   * Runs this command.
+   */
+  public void run() {
+    // TODO
+  }
   
   /**
    * Checks if the connection is successfully
