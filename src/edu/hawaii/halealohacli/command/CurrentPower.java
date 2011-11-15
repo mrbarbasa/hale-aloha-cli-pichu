@@ -38,16 +38,16 @@ public class CurrentPower {
    */
   public static void main(String[] args) throws Exception {
     CurrentPower cp = new CurrentPower();
-    //Current day
+    // Current day
     Calendar current = Calendar.getInstance(Locale.US);
     long time = current.getTimeInMillis();
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.US);
     String url = "http://server.wattdepot.org:8190/wattdepot/";
-    //Name of source to retrieve data from
+    // Name of source to retrieve data from
     String source = args[1];
     
     WattDepotClient client = new WattDepotClient(url);
-    //Check for success of connection to server
+    // Check for success of connection to server
     cp.checkConnection(client, url);
     
     double power = client.getLatestEnergyConsumedToDate(source) / 1000;
