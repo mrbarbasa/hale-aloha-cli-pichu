@@ -52,14 +52,14 @@ public class DailyEnergy {
     XMLGregorianCalendar end;
     double energy = 0;
     
-    //Setting the day and that day's midnight time
+    // Setting the day and that day's midnight time
     midNight.setTime(df.parse(date));
     midNight.set(Calendar.HOUR, 0);
     midNight.set(Calendar.MINUTE, 0);
     midNight.set(Calendar.SECOND, 0);
     start = Tstamp.makeTimestamp(midNight.getTimeInMillis());
     
-    //Setting the day and that day's time to 11:59
+    // Setting the day and that day's time to 11:59
     endOfDay.setTime(df.parse(date));
     endOfDay.set(Calendar.HOUR, 23);
     endOfDay.set(Calendar.MINUTE, 59);
@@ -87,7 +87,7 @@ public class DailyEnergy {
     String url = "http://server.wattdepot.org:8190/wattdepot/";
     
     WattDepotClient client = new WattDepotClient(url);
-    //Check for success of connection to server
+    // Check for success of connection to server
     de.checkConnection(client, url);
     
     double energy = de.getEnergy(client, source, date) / 1000;
