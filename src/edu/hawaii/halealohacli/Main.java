@@ -40,8 +40,13 @@ public class Main {
       if (scan.hasNextLine()) {
         input = scan.nextLine();
         System.out.println(input);
-        Processor pro = new Processor(input);
-        pro.run();
+        if (("quit").equals(input)) { // TODO: This needs changing because quit is a Command class
+          quit = true;
+        }
+        else {
+          Processor pro = new Processor(input);
+          pro.run();
+        }
       }
     }
   }
