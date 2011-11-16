@@ -12,40 +12,66 @@ import edu.hawaii.halealohacli.processor.Processor;
  */
 public class Main {
   
+  private static final String URL = "http://server.wattdepot.org:8190/wattdepot/";
+  private static final String QUIT = "quit";
+  
+  /**
+   * Give all commands access to the WattDepot client.
+   */
+  public static final WattDepotClient CLIENT = new WattDepotClient(URL);
+  
+  /**
+   * Check that a successful connection to the WattDepot server has been established.
+   */
+  public static void checkConnection() {
+    // Check to make sure a connection can be made
+    if (CLIENT.isHealthy()) {
+      System.out.println("Connected successfully to the Hale Aloha WattDepot server.");
+    }
+    // If no connection, then exit right now
+    else {
+      System.out.format("Could not connect to: %s%n", URL);
+      return; // Prematurely exit the program
+    }
+  }
+  
+  /**
+   * Call the Processor to process the user input.
+   * 
+   * @param input the command and arguments that the user has input
+   * @return the output the processor has received from a command
+   */
+  public static String run(String input) {
+    Processor pro = new Processor(input);
+    pro.run();
+    return pro.getOutput();
+  }
+  
   /**
    * Runs the Hale Aloha command line interface program.
    * 
    * @param args no command line arguments required
    */
   public static void main(String[] args) {
-    final String url = "http://server.wattdepot.org:8190/wattdepot/";
-    WattDepotClient client = new WattDepotClient(url);
-    
-    // Check to make sure a connection can be made
-    if (client.isHealthy()) {
-      System.out.println("Connected successfully to the Hale Aloha WattDepot server.");
-    }
-    // If no connection, then exit right now
-    else {
-      System.out.format("Could not connect to: %s%n", url);
-      return; // Prematurely exit the program
-    }
-    
-    // Main loop that runs the program until the "quit" command is processed
-    boolean quit = false;
+    checkConnection(); // Initially check that the connection to the server is healthy    
     Scanner scan = new Scanner(System.in);
     String input = "";
+    boolean quit = false;
+    // Main loop that runs the program until the quit command is processed
     while (!quit) {
+      if (!CLIENT.isHealthy()) { // Check connection to the server before each loop
+        System.out.format("Lost connection to: %s%n", URL);
+        return; // Prematurely exit the program
+      }
       System.out.print("> ");
-      if (scan.hasNextLine()) {
-        input = scan.nextLine();
-        if (("quit").equals(input)) { // TODO: This needs changing because quit is a Command class
-          quit = true;
-        }
-        else {
-          Processor pro = new Processor(client, input);
-          pro.run();
-        }
+      input = scan.nextLine();
+      String output = Main.run(input);
+      if ((QUIT).equals(output)) {
+        quit = true;
+        System.out.println("Concerned about energy and power?  You're awesome!  See ya!");
+      }
+      else {
+        System.out.println(output);
       }
     }
   }

@@ -1,7 +1,7 @@
 package edu.hawaii.halealohacli.command;
 
 /**
- * Interface for program commands.
+ * Interface for the Hale Aloha CLI program commands.
  * 
  * @author Team Pichu
  */

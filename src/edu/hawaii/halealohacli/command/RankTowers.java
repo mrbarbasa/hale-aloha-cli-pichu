@@ -1,7 +1,5 @@
 package edu.hawaii.halealohacli.command;
 
-import org.wattdepot.client.WattDepotClient;
-
 /**
  * 
  * 
@@ -12,11 +10,10 @@ public class RankTowers {
   /**
    * Creates a new instance of the current-power command.
    * 
-   * @param client the client connected to the WattDepot server
    * @param start the start time specified
    * @param end the end time specified
    */
-  public RankTowers(WattDepotClient client, String start, String end) {
+  public RankTowers(String start, String end) {
     // TODO
   }
   

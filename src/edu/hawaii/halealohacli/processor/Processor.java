@@ -3,10 +3,11 @@ package edu.hawaii.halealohacli.processor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import org.wattdepot.client.WattDepotClient;
 import edu.hawaii.halealohacli.command.CurrentPower;
 import edu.hawaii.halealohacli.command.DailyEnergy;
 import edu.hawaii.halealohacli.command.EnergySince;
+import edu.hawaii.halealohacli.command.Help;
+import edu.hawaii.halealohacli.command.Quit;
 import edu.hawaii.halealohacli.command.RankTowers;
 
 /**
@@ -18,7 +19,6 @@ import edu.hawaii.halealohacli.command.RankTowers;
  */
 public class Processor {
   
-  private WattDepotClient client;
   private String input;
   private List<String> components;
   private String command;
@@ -29,15 +29,15 @@ public class Processor {
   private static final String DAILY_ENERGY = "daily-energy";
   private static final String ENERGY_SINCE = "energy-since";
   private static final String RANK_TOWERS = "rank-towers";
+  private static final String HELP = "help";
+  private static final String QUIT = "quit";
   
   /**
    * Creates a new processor instance.
    * 
-   * @param client the client connected to the WattDepot server
    * @param input the string input to process
    */
-  public Processor(WattDepotClient client, String input) {
-    this.client = client;
+  public Processor(String input) {
     this.input = input;
     this.components = new ArrayList<String>();
   }
@@ -59,37 +59,47 @@ public class Processor {
   /**
    * Determines which class corresponds to the command.
    */
-  public void callCommand() {
-    if ((CURRENT_POWER).equals(this.command)) {
-      CurrentPower currentPower = new CurrentPower(this.client, this.components.get(1));
-      currentPower.run();
-      // this.output = currentPower.getOutput();
-    }
-    else if ((DAILY_ENERGY).equals(this.command)) {
-      DailyEnergy dailyEnergy = new DailyEnergy(this.client, this.components.get(1), 
-          this.components.get(2));
-      dailyEnergy.run();
-      // this.output = dailyEnergy.getOutput();
-    }
-    else if ((ENERGY_SINCE).equals(this.command)) {
-      EnergySince energySince = new EnergySince(this.client, this.components.get(1), 
-          this.components.get(2));
-      try {
+  private void callCommand() {
+    try {
+      if ((CURRENT_POWER).equals(this.command)) {
+        CurrentPower currentPower = new CurrentPower(this.components.get(1));
+        currentPower.run();
+        // this.output = currentPower.getOutput();
+      }
+      else if ((DAILY_ENERGY).equals(this.command)) {
+        DailyEnergy dailyEnergy = new DailyEnergy(this.components.get(1), 
+            this.components.get(2));
+        dailyEnergy.run();
+        // this.output = dailyEnergy.getOutput();
+      }
+      else if ((ENERGY_SINCE).equals(this.command)) {
+        EnergySince energySince = new EnergySince(this.components.get(1), 
+            this.components.get(2));
         energySince.run();
         this.output = energySince.getOutput();
       }
-      catch (Exception e) {
-        this.output = "No data received.";
+      else if ((RANK_TOWERS).equals(this.command)) {
+        RankTowers rankTowers = new RankTowers(this.components.get(1), 
+            this.components.get(2));
+        rankTowers.run();
+        // this.output = rankTowers.getOutput();
+      }
+      else if ((HELP).equals(this.command)) {
+        Help help = new Help();
+        help.run();
+        // this.output = help.getOutput();
+      }
+      else if ((QUIT).equals(this.command)) {
+        Quit quit = new Quit();
+        quit.run();
+        this.output = quit.getOutput();
+      }
+      else {
+        this.output = "There is no such command.";
       }
     }
-    else if ((RANK_TOWERS).equals(this.command)) {
-      RankTowers rankTowers = new RankTowers(this.client, this.components.get(1), 
-          this.components.get(2));
-      rankTowers.run();
-      // this.output = rankTowers.getOutput();
-    }
-    else { // TODO
-      System.out.println("This command is invalid.");
+    catch (Exception e) {
+      this.output = "No data received.";
     }
   }
   
@@ -99,7 +109,15 @@ public class Processor {
   public void run() {
     this.parseInput();
     this.callCommand();
-    System.out.println(this.output);
+  }
+  
+  /**
+   * Returns a string representation of the output received by the processor.
+   * 
+   * @return the output received by the processor
+   */
+  public String getOutput() {
+    return this.output;
   }
   
 }

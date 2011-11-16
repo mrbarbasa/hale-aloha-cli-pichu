@@ -3,8 +3,8 @@ package edu.hawaii.halealohacli.command;
 import java.util.Date;
 import java.util.Locale;
 import javax.xml.datatype.XMLGregorianCalendar;
-import org.wattdepot.client.WattDepotClient;
 import org.wattdepot.util.tstamp.Tstamp;
+import edu.hawaii.halealohacli.Main;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
@@ -16,7 +16,6 @@ import java.text.SimpleDateFormat;
  */
 public class EnergySince implements Command {
   
-  private WattDepotClient client;
   private String tower;
   private String date;
   private String output;
@@ -24,12 +23,10 @@ public class EnergySince implements Command {
   /**
    * Creates a new instance of the energy-since command.
    * 
-   * @param client the client connected to the WattDepot server
    * @param tower the tower specified
    * @param date the date specified
    */
-  public EnergySince(WattDepotClient client, String tower, String date) {
-    this.client = client;
+  public EnergySince(String tower, String date) {
     this.tower = tower;
     this.date = date;
   }
@@ -42,7 +39,7 @@ public class EnergySince implements Command {
    * @param dateTime the XMLGregorianCalendar object to parse
    * @return a string representation of the date and time
    */
-  public String parseDateTime(XMLGregorianCalendar dateTime) {
+  private String parseDateTime(XMLGregorianCalendar dateTime) {
     String dt = String.valueOf(dateTime);
     int indexT = dt.indexOf('T'); // 'T' separates the date from the time
     String parsedResult = dt.substring(0, indexT) + "  "; // Acquire the date "yyyy-MM-dd  "
@@ -68,8 +65,8 @@ public class EnergySince implements Command {
     startTime.setTime(0, 0, 0, 0);
     
     // Set the endTime to the date and time given by the timestamp on the latest sensor data
-    XMLGregorianCalendar endTime = this.client.getLatestSensorData(this.tower).getTimestamp();
-    double energy = this.client.getEnergyConsumed(this.tower, startTime, endTime, 0);
+    XMLGregorianCalendar endTime = Main.CLIENT.getLatestSensorData(this.tower).getTimestamp();
+    double energy = Main.CLIENT.getEnergyConsumed(this.tower, startTime, endTime, 0);
     energy /= 1000; // Because 1 watt-hour x (1 kWh / 1000 watt-hours) = 0.001 kWh
     DecimalFormat df = new DecimalFormat("#.#");
     String kWh = df.format(energy); // Round the energy to 1 decimal place
