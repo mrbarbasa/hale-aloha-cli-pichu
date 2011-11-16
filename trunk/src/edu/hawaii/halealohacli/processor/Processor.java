@@ -3,6 +3,7 @@ package edu.hawaii.halealohacli.processor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import org.wattdepot.client.WattDepotClient;
 import edu.hawaii.halealohacli.command.CurrentPower;
 import edu.hawaii.halealohacli.command.DailyEnergy;
 import edu.hawaii.halealohacli.command.EnergySince;
@@ -17,9 +18,11 @@ import edu.hawaii.halealohacli.command.RankTowers;
  */
 public class Processor {
   
-  private String input = "";
+  private WattDepotClient client;
+  private String input;
   private List<String> components;
-  private String command = "";
+  private String command;
+  private String output;
   
   // List of commands as constants
   private static final String CURRENT_POWER = "current-power";
@@ -30,9 +33,11 @@ public class Processor {
   /**
    * Creates a new processor instance.
    * 
+   * @param client the client connected to the WattDepot server
    * @param input the string input to process
    */
-  public Processor(String input) {
+  public Processor(WattDepotClient client, String input) {
+    this.client = client;
     this.input = input;
     this.components = new ArrayList<String>();
   }
@@ -56,20 +61,32 @@ public class Processor {
    */
   public void callCommand() {
     if ((CURRENT_POWER).equals(this.command)) {
-      CurrentPower currentPower = new CurrentPower(this.components.get(1));
+      CurrentPower currentPower = new CurrentPower(this.client, this.components.get(1));
       currentPower.run();
+      // this.output = currentPower.getOutput();
     }
     else if ((DAILY_ENERGY).equals(this.command)) {
-      DailyEnergy dailyEnergy = new DailyEnergy(this.components.get(1), this.components.get(2));
+      DailyEnergy dailyEnergy = new DailyEnergy(this.client, this.components.get(1), 
+          this.components.get(2));
       dailyEnergy.run();
+      // this.output = dailyEnergy.getOutput();
     }
     else if ((ENERGY_SINCE).equals(this.command)) {
-      EnergySince energySince = new EnergySince(this.components.get(1), this.components.get(2));
-      energySince.run();
+      EnergySince energySince = new EnergySince(this.client, this.components.get(1), 
+          this.components.get(2));
+      try {
+        energySince.run();
+        this.output = energySince.getOutput();
+      }
+      catch (Exception e) {
+        this.output = "No data received.";
+      }
     }
     else if ((RANK_TOWERS).equals(this.command)) {
-      RankTowers rankTowers = new RankTowers(this.components.get(1), this.components.get(2));
+      RankTowers rankTowers = new RankTowers(this.client, this.components.get(1), 
+          this.components.get(2));
       rankTowers.run();
+      // this.output = rankTowers.getOutput();
     }
     else { // TODO
       System.out.println("This command is invalid.");
@@ -82,6 +99,7 @@ public class Processor {
   public void run() {
     this.parseInput();
     this.callCommand();
+    System.out.println(this.output);
   }
   
 }
