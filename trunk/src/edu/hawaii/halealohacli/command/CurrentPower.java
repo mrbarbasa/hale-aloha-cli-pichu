@@ -25,10 +25,9 @@ public class CurrentPower {
   /**
    * Creates a new instance of the current-power command.
    * 
-   * @param client the client connected to the WattDepot server
    * @param tower the tower specified
    */
-  public CurrentPower(WattDepotClient client, String tower) {
+  public CurrentPower(String tower) {
     // TODO
   }
   
