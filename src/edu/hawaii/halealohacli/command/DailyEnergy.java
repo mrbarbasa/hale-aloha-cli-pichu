@@ -27,10 +27,11 @@ public class DailyEnergy {
   /**
    * Creates a new instance of the daily-energy command.
    * 
+   * @param client the client connected to the WattDepot server
    * @param tower the tower specified
    * @param date the date specified
    */
-  public DailyEnergy(String tower, String date) {
+  public DailyEnergy(WattDepotClient client, String tower, String date) {
     // TODO
   }
   

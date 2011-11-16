@@ -39,12 +39,11 @@ public class Main {
       System.out.print("> ");
       if (scan.hasNextLine()) {
         input = scan.nextLine();
-        System.out.println(input);
         if (("quit").equals(input)) { // TODO: This needs changing because quit is a Command class
           quit = true;
         }
         else {
-          Processor pro = new Processor(input);
+          Processor pro = new Processor(client, input);
           pro.run();
         }
       }

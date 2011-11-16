@@ -6,11 +6,11 @@ package edu.hawaii.halealohacli.command;
  * @author Team Pichu
  */
 public interface Command {
-
+  
   /**
    * Causes command to execute "main" code for functionality.
    */
-  void run();
+  void run() throws Exception;
 
   /**
    * Retrieves output of method.
