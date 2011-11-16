@@ -2,11 +2,25 @@ package edu.hawaii.halealohacli.command;
 
 /**
  * Interface for program commands.
+ * 
  * @author Team Pichu
  */
 public interface Command {
-  
+
+  /**
+   * Causes command to execute "main" code for functionality.
+   */
   void run();
+
+  /**
+   * Retrieves output of method.
+   * @return String output of method.
+   */
   String getOutput();
+
+  /**
+   * Retrieves a description of the method and its functionality.
+   * @return String description of method.
+   */
   String description();
 }
