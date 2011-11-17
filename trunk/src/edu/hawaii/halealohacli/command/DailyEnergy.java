@@ -1,122 +1,102 @@
 package edu.hawaii.halealohacli.command;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.wattdepot.client.WattDepotClient;
 import org.wattdepot.util.tstamp.Tstamp;
+import edu.hawaii.halealohacli.Main;
 
 /**
  * Retrieves a certain source's energy data
  * on a certain day. Data starts at 12 a.m.
- * to 11:59 p.m. on that day.
+ * of that day to 12 a.m.of the next day.
  * 
  * @author Team Pichu
  */
-public class DailyEnergy {
+public class DailyEnergy implements Command {
   
-  /**
-   * Creates a new instance of the current-power command.
-   * Just a placeholder for the code below.
-   */
-  public DailyEnergy() {
-    // TODO
-  }
+  private String tower;
+  private String day;
+  private WattDepotClient client;
+  private String output;
   
   /**
    * Creates a new instance of the daily-energy command.
    * 
-   * @param tower the tower specified
-   * @param date the date specified
+   * @param tower - name of the tower or lounge.
+   * @param day - the date specified by user.
    */
-  public DailyEnergy(String tower, String date) {
-    // TODO
-  }
-  
-  /**
-   * Runs this command.
-   */
-  public void run() {
-    // TODO
-  }
-  
-  /**
-   * Checks if the connection is successfully
-   * connected to the server.
-   * 
-   * @param client - WattDepotClient object.
-   * @param address - url address to the server.
-   */
-  public void checkConnection(WattDepotClient client, String address) {
-    
-    if (!client.isHealthy()) {
-      System.out.format("Could not connect to: %s%n", address);
-    }
-    
+  public DailyEnergy(String tower, String day) {
+    this.client = Main.CLIENT;
+    this.tower = tower;
+    this.day = day;
   }
   
   /**
    * Retrieves the energy of the certain day
    * specified by the user. Data range is from
-   * 12 a.m. to 11:59 p.m. of that day.
+   * 12 a.m. of specified day to 12 a.m. of the 
+   * next day. In other words from start of day
+   * to end of day.
    *
-   * @param client - WattDepotClient object.
-   * @param source - name of the source.
-   * @param date - they day to retrieve the data.
-   * @return - energy data in watt-hour.
+   * @return the amount of energy used by the source.
    * @throws Exception - error.
    */
-  public double getEnergy(WattDepotClient client, String source, String date) throws Exception {
+  public double getEnergy() throws Exception {
     
-    Calendar midNight = Calendar.getInstance(Locale.US);
-    Calendar endOfDay = Calendar.getInstance(Locale.US);
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-    XMLGregorianCalendar start;
-    XMLGregorianCalendar end;
-    double energy = 0;
+    Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(this.day);
+    //Setting time for beginning of the day
+    XMLGregorianCalendar start = Tstamp.makeTimestamp(date.getTime());
+    start.setTime(0, 0, 0);
     
-    // Setting the day and that day's midnight time
-    midNight.setTime(df.parse(date));
-    midNight.set(Calendar.HOUR, 0);
-    midNight.set(Calendar.MINUTE, 0);
-    midNight.set(Calendar.SECOND, 0);
-    start = Tstamp.makeTimestamp(midNight.getTimeInMillis());
+    //Setting the time for end of the day
+    XMLGregorianCalendar end = Tstamp.incrementDays(Tstamp.makeTimestamp(date.getTime()), 
+                                                    1);
+    end.setTime(0, 0, 0);
     
-    // Setting the day and that day's time to 11:59
-    endOfDay.setTime(df.parse(date));
-    endOfDay.set(Calendar.HOUR, 23);
-    endOfDay.set(Calendar.MINUTE, 59);
-    endOfDay.set(Calendar.SECOND, 59);
-    end = Tstamp.makeTimestamp(endOfDay.getTimeInMillis());
-    
-    energy = client.getEnergyConsumed(source, start, end, 60);
-  
-    
-    return energy;
+    return this.client.getEnergyConsumed(this.tower, start, end, 0);
   }
   
   
+  
+  
+  
   /**
-   * Reads in source name and the date to
-   * retrieve the energy.
+   * Runs this command.
    * 
-   * @param args - source name and the date.
    * @throws Exception - error.
    */
-  public static void main(String[] args) throws Exception {
-    DailyEnergy de = new DailyEnergy();
-    String source = args[1];
-    String date = args[2];
-    String url = "http://server.wattdepot.org:8190/wattdepot/";
+  public void run() throws Exception {
     
-    WattDepotClient client = new WattDepotClient(url);
-    // Check for success of connection to server
-    de.checkConnection(client, url);
+    double energy = this.getEnergy();
     
-    double energy = de.getEnergy(client, source, date) / 1000;
+    this.output = this.tower + "'s energy consumption for ";
+    this.output += this.day + " was: " + energy + " kWh.";
+  }
+
+  
+  /**
+   * Returns a string representation of the output of this command.
+   * 
+   * @return the output of this command.
+   */
+  public String getOutput() {
+    return this.output;
+  }
+  
+  /**
+   * Retrieves a description of this command and its functionality.
+   * 
+   * @return a description of this command.
+   */
+  public String description() {
+    String description = "Usage daily-energy [tower | lounge] date\n";
+    description += "  Retrieves the energy consumed by the source from\n";
+    description += "  the date specified by the user.";
     
-    System.out.format("%s's energy consumption for %s was: %.2f kWh", source, date, energy);
+    return description;
   }
 
 }
