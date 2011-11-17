@@ -64,13 +64,13 @@ public class Processor {
       if ((CURRENT_POWER).equals(this.command)) {
         CurrentPower currentPower = new CurrentPower(this.components.get(1));
         currentPower.run();
-        // this.output = currentPower.getOutput();
+        this.output = currentPower.getOutput();
       }
       else if ((DAILY_ENERGY).equals(this.command)) {
         DailyEnergy dailyEnergy = new DailyEnergy(this.components.get(1), 
             this.components.get(2));
         dailyEnergy.run();
-        // this.output = dailyEnergy.getOutput();
+        this.output = dailyEnergy.getOutput();
       }
       else if ((ENERGY_SINCE).equals(this.command)) {
         EnergySince energySince = new EnergySince(this.components.get(1), 
