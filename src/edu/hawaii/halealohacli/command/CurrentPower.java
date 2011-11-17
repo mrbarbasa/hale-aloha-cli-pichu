@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import org.wattdepot.client.WattDepotClient;
+import edu.hawaii.halealohacli.Main;
 
 
 /**
@@ -12,15 +13,11 @@ import org.wattdepot.client.WattDepotClient;
  * 
  * @author Team Pichu
  */
-public class CurrentPower {
+public class CurrentPower implements Command {
   
-  /**
-   * Creates a new instance of the current-power command.
-   * Just a placeholder for the code below.
-   */
-  public CurrentPower() {
-    // TODO
-  }
+  private String tower;
+  private WattDepotClient client;
+  private String output;
   
   /**
    * Creates a new instance of the current-power command.
@@ -28,53 +25,54 @@ public class CurrentPower {
    * @param tower the tower specified
    */
   public CurrentPower(String tower) {
-    // TODO
+    this.tower = tower;
+    this.client = Main.CLIENT;
+  }
+  
+  
+  /**
+   * 
+   * @return amount of power used by the source.
+   * @throws Exception - error.
+   */
+  public double getCurrentPower() throws Exception {
+    return this.client.getLatestPowerConsumed(this.tower);
   }
   
   /**
    * Runs this command.
-   */
-  public void run() {
-    // TODO
-  }
-
-  /**
-   * Checks if the connection is successfully
-   * connected to the server.
    * 
-   * @param client - WattDepotClient object.
-   * @param address - url address to the server.
+   * @throws Exception - error.
    */
-  public void checkConnection(WattDepotClient client, String address) {
-    if (!client.isHealthy()) {
-      System.out.format("Could not connect to: %s%n", address);
-    }
-    
+  public void run() throws Exception {
+    double power = this.getCurrentPower();
+    Calendar date = Calendar.getInstance(Locale.US);
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.US);
+ 
+    this.output = this.tower + "'s power as of " + df.format(date.getTimeInMillis());
+    this.output += " was " + String.format("%.2f", power) + " kW.";
   }
   
   /**
-   * Reads in source name and retrieve the 
-   * current power data of that source.
+   * Returns a string representation of the output of this command.
    * 
-   * @param args - source name.
-   * @throws Exception - error.
+   * @return the output of this command.
    */
-  public static void main(String[] args) throws Exception {
-    CurrentPower cp = new CurrentPower();
-    // Current day
-    Calendar current = Calendar.getInstance(Locale.US);
-    long time = current.getTimeInMillis();
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.US);
-    String url = "http://server.wattdepot.org:8190/wattdepot/";
-    // Name of source to retrieve data from
-    String source = args[1];
+  public String getOutput() {
+    return this.output;
+  }
+  
+  
+  /**
+   * Retrieves a description of this command and its functionality.
+   * 
+   * @return a description of this command.
+   */
+  public String description() {
     
-    WattDepotClient client = new WattDepotClient(url);
-    // Check for success of connection to server
-    cp.checkConnection(client, url);
+    String description = "Usage current-power [tower | lounge]\n";
+    description += "  Retrieves the power of the particular source.";
     
-    double power = client.getLatestEnergyConsumedToDate(source) / 1000;
-    System.out.format("%s power as of %s was: %.2f kW", source, df.format(time), power);
-    
+    return description;
   }
 }
