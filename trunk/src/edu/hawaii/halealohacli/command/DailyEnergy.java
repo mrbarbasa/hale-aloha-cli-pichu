@@ -65,7 +65,7 @@ public class DailyEnergy implements Command {
    */
   public void run() throws Exception {
     
-    double energy = this.getDailyEnergy();
+    double energy = this.getDailyEnergy() / 1000;
     
     this.output = this.tower + "'s energy consumption for ";
     this.output += this.day + " was: " + String.format("%.2f",energy) + " kWh.";
