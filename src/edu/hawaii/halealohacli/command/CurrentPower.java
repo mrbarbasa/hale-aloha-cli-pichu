@@ -36,7 +36,7 @@ public class CurrentPower implements Command {
    * @throws Exception - error.
    */
   public double getCurrentPower() throws Exception {
-    return this.client.getLatestPowerConsumed(this.tower);
+    return this.client.getLatestPowerConsumed(this.tower) / 1000;
   }
   
   /**
@@ -45,7 +45,7 @@ public class CurrentPower implements Command {
    * @throws Exception - error.
    */
   public void run() throws Exception {
-    double power = this.getCurrentPower() / 1000;
+    double power = this.getCurrentPower();
     Calendar date = Calendar.getInstance(Locale.US);
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.US);
  
