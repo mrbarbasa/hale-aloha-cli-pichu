@@ -5,7 +5,7 @@ import org.junit.Test;
 import edu.hawaii.halealohacli.command.CurrentPower;
 
 /**
- * 
+ * Tests the CurrentPower class.
  * 
  * @author Team Pichu
  */
