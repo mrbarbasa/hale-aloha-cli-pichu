@@ -36,9 +36,8 @@ public class CurrentPower implements Command {
    * Returns the amount of power used by the source.
    * 
    * @return the amount of power used by the source
-   * @throws Exception - error.
    */
-  public double getCurrentPower() throws Exception {
+  public double getCurrentPower() {
     return this.currentPower;
   }
   
