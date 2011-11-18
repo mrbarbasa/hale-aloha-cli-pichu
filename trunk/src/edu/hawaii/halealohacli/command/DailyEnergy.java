@@ -68,7 +68,7 @@ public class DailyEnergy implements Command {
     double energy = this.getDailyEnergy() / 1000;
     
     this.output = this.tower + "'s energy consumption for ";
-    this.output += this.day + " was: " + String.format("%.2f",energy) + " kWh.";
+    this.output += this.day + " was: " + String.format("%.1f",energy) + " kWh.";
   }
 
   

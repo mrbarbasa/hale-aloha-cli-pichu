@@ -50,7 +50,7 @@ public class CurrentPower implements Command {
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.US);
  
     this.output = this.tower + "'s power as of " + df.format(date.getTimeInMillis());
-    this.output += " was " + String.format("%.2f", power) + " kW.";
+    this.output += " was " + String.format("%.1f", power) + " kW.";
   }
   
   /**
