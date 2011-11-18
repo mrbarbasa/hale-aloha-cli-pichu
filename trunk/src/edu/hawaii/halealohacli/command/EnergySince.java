@@ -3,9 +3,9 @@ package edu.hawaii.halealohacli.command;
 import java.util.Date;
 import java.util.Locale;
 import javax.xml.datatype.XMLGregorianCalendar;
+import org.wattdepot.client.WattDepotClient;
 import org.wattdepot.util.tstamp.Tstamp;
 import edu.hawaii.halealohacli.Main;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 /**
@@ -18,7 +18,9 @@ public class EnergySince implements Command {
   
   private String tower;
   private String date;
+  private WattDepotClient client;
   private String output;
+  private double energySince;
   
   /**
    * Creates a new instance of the energy-since command.
@@ -27,8 +29,19 @@ public class EnergySince implements Command {
    * @param date the date specified
    */
   public EnergySince(String tower, String date) {
+    this.client = Main.CLIENT;
     this.tower = tower;
     this.date = date;
+    this.energySince = 0;
+  }
+  
+  /**
+   * Returns the value of the energy consumed since the date specified.
+   * 
+   * @return the double value of the energy consumed
+   */
+  public double getEnergySince() {
+    return this.energySince;
   }
   
   /**
@@ -65,17 +78,16 @@ public class EnergySince implements Command {
     startTime.setTime(0, 0, 0, 0);
     
     // Set the endTime to the date and time given by the timestamp on the latest sensor data
-    XMLGregorianCalendar endTime = Main.CLIENT.getLatestSensorData(this.tower).getTimestamp();
-    double energy = Main.CLIENT.getEnergyConsumed(this.tower, startTime, endTime, 0);
+    XMLGregorianCalendar endTime = this.client.getLatestSensorData(this.tower).getTimestamp();
+    double energy = this.client.getEnergyConsumed(this.tower, startTime, endTime, 0);
     energy /= 1000; // Because 1 watt-hour x (1 kWh / 1000 watt-hours) = 0.001 kWh
-    DecimalFormat df = new DecimalFormat("#.#");
-    String kWh = df.format(energy); // Round the energy to 1 decimal place
+    this.energySince = energy;
     
     // Save the output // energy-since Lehua-E 2011-11-14
     this.output = "Total energy consumption by " + this.tower + "\n";
     this.output += "  from  " + this.parseDateTime(startTime) + "\n";
     this.output += "  to    " + this.parseDateTime(endTime) + "\n";
-    this.output += "  is:   " + kWh + " kWh";
+    this.output += "  is:   " + String.format("%.1f",energy)  + " kWh";
   }
   
   /**

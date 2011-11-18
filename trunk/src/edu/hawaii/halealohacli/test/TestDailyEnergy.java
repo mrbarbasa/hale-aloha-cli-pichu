@@ -1,28 +1,26 @@
 package edu.hawaii.halealohacli.test;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 import edu.hawaii.halealohacli.command.DailyEnergy;
 
 /**
- * Test the DailyEnergy class.
+ * Tests the DailyEnergy class.
  * 
  * @author Team Pichu
  */
 public class TestDailyEnergy {
   
   /**
-   * Test the results returned.
+   * Tests if the energy consumed on the specified date is greater than 0.
    * 
-   * @throws Exception - error.
+   * @throws Exception If problems occur in retrieving data from WattDepot.
    */
   @Test
   public void testDailyEnergy() throws Exception {
-    DailyEnergy energy = new DailyEnergy("Ilima-04-lounge", "2011-10-26");
-    
+    DailyEnergy energy = new DailyEnergy("Ilima", "2011-11-14");
+    energy.run();
     assertTrue("Testing daily energy", energy.getDailyEnergy() > 0);
-    assertFalse("Test daily energy less than 0", energy.getDailyEnergy() < 0);
   }
   
 
