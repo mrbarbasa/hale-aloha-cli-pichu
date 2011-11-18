@@ -18,9 +18,9 @@ public class TestCurrentPower {
    */
   @Test
   public void testCurrentPower() throws Exception {
-    CurrentPower power = new CurrentPower("Ilima-04-lounge");
-    
-    assertTrue("Test current power", power.getCurrentPower() > 0);
+    CurrentPower power = new CurrentPower("Ilima");
+    power.run();
+    assertTrue("Testing current power", power.getCurrentPower() > 0);
   }
 
 }

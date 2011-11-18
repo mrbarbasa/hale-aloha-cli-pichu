@@ -18,6 +18,7 @@ public class CurrentPower implements Command {
   private String tower;
   private WattDepotClient client;
   private String output;
+  private double currentPower;
   
   /**
    * Creates a new instance of the current-power command.
@@ -27,16 +28,18 @@ public class CurrentPower implements Command {
   public CurrentPower(String tower) {
     this.tower = tower;
     this.client = Main.CLIENT;
+    this.currentPower = 0;
   }
   
   
   /**
+   * Returns the amount of power used by the source.
    * 
-   * @return amount of power used by the source.
+   * @return the amount of power used by the source
    * @throws Exception - error.
    */
   public double getCurrentPower() throws Exception {
-    return this.client.getLatestPowerConsumed(this.tower) / 1000;
+    return this.currentPower;
   }
   
   /**
@@ -45,7 +48,9 @@ public class CurrentPower implements Command {
    * @throws Exception - error.
    */
   public void run() throws Exception {
-    double power = this.getCurrentPower();
+    double power = this.client.getLatestPowerConsumed(this.tower);
+    power /= 1000;
+    this.currentPower = power;
     Calendar date = Calendar.getInstance(Locale.US);
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.US);
  
@@ -69,7 +74,6 @@ public class CurrentPower implements Command {
    * @return a description of this command.
    */
   public String description() {
-    
     String description = "Usage current-power [tower | lounge]\n";
     description += "  Retrieves the power of the particular source.";
     

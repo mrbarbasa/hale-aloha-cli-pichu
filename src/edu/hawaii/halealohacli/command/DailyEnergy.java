@@ -21,6 +21,7 @@ public class DailyEnergy implements Command {
   private String day;
   private WattDepotClient client;
   private String output;
+  private double dailyEnergy;
   
   /**
    * Creates a new instance of the daily-energy command.
@@ -32,6 +33,7 @@ public class DailyEnergy implements Command {
     this.client = Main.CLIENT;
     this.tower = tower;
     this.day = day;
+    this.dailyEnergy = 0;
   }
   
   /**
@@ -42,20 +44,9 @@ public class DailyEnergy implements Command {
    * to end of day.
    *
    * @return the amount of energy used by the source.
-   * @throws Exception - error.
    */
-  public double getDailyEnergy() throws Exception {
-    Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(this.day);
-    //Setting time for beginning of the day
-    XMLGregorianCalendar start = Tstamp.makeTimestamp(date.getTime());
-    start.setTime(0, 0, 0);
-    
-    //Setting the time for end of the day
-    XMLGregorianCalendar end = Tstamp.incrementDays(Tstamp.makeTimestamp(date.getTime()), 
-                                                    1);
-    end.setTime(0, 0, 0);
-    
-    return this.client.getEnergyConsumed(this.tower, start, end, 0) / 1000;
+  public double getDailyEnergy() {
+    return this.dailyEnergy;
   }
   
   /**
@@ -64,8 +55,17 @@ public class DailyEnergy implements Command {
    * @throws Exception - error.
    */
   public void run() throws Exception {
+    Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(this.day);
+    //Setting time for beginning of the day
+    XMLGregorianCalendar start = Tstamp.makeTimestamp(date.getTime());
+    start.setTime(0, 0, 0);
     
-    double energy = this.getDailyEnergy();
+    //Setting the time for end of the day
+    XMLGregorianCalendar end = Tstamp.incrementDays(Tstamp.makeTimestamp(date.getTime()), 1);
+    end.setTime(0, 0, 0);
+    double energy = this.client.getEnergyConsumed(this.tower, start, end, 0);
+    energy /= 1000;
+    this.dailyEnergy = energy;
     
     this.output = this.tower + "'s energy consumption for ";
     this.output += this.day + " was: " + String.format("%.1f",energy) + " kWh.";
