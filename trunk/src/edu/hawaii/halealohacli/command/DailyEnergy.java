@@ -44,7 +44,7 @@ public class DailyEnergy implements Command {
    * @return the amount of energy used by the source.
    * @throws Exception - error.
    */
-  public double getEnergy() throws Exception {
+  public double getDailyEnergy() throws Exception {
     Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(this.day);
     //Setting time for beginning of the day
     XMLGregorianCalendar start = Tstamp.makeTimestamp(date.getTime());
@@ -65,7 +65,7 @@ public class DailyEnergy implements Command {
    */
   public void run() throws Exception {
     
-    double energy = this.getEnergy();
+    double energy = this.getDailyEnergy();
     
     this.output = this.tower + "'s energy consumption for ";
     this.output += this.day + " was: " + String.format("%.2f",energy) + " kWh.";

@@ -12,21 +12,17 @@ import edu.hawaii.halealohacli.command.DailyEnergy;
  */
 public class TestDailyEnergy {
   
-  private String testSource = "Ilima-04-lounge";
-  private String testDate = "2011-10-26";
-  
   /**
    * Test the results returned.
    * 
    * @throws Exception - error.
    */
   @Test
-  public void testGetDailyEnergy() throws Exception {
+  public void testDailyEnergy() throws Exception {
+    DailyEnergy energy = new DailyEnergy("Ilima-04-lounge", "2011-10-26");
     
-    DailyEnergy energy = new DailyEnergy(testSource, testDate);
-    
-    assertTrue("Testing daily energy", energy.getEnergy() > 0);
-    assertFalse("Test daily energy less than 0", energy.getEnergy() < 0);
+    assertTrue("Testing daily energy", energy.getDailyEnergy() > 0);
+    assertFalse("Test daily energy less than 0", energy.getDailyEnergy() < 0);
   }
   
 
