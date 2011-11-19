@@ -1,4 +1,4 @@
-#summary How to use the prepackaged hale-aloha-cli-pichu "Pichu" system.
+#summary Steps to download and install the hale-aloha-cli-pichu "Pichu" system.
 #labels Featured
 
 *Table of Contents* 
