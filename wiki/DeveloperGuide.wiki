@@ -6,46 +6,39 @@
 
 = 1.0 Prerequisites =
 
-You must have Ant 1.8.1 and Java 1.6 installed.  We also provide .project and .classpath files for Eclipse, although that IDE is not mandatory for development. 
+*Apache Ant 1.8.2* and *Java 1.6* must be installed before development can commence.  Any IDE will do, but if Eclipse is the IDE of your choice, the .project and .classpath files are also provided.
 
 = 2.0 Installation =
 
-== 2.1 Run Ant to install libraries required for compilation ==
+== 2.1 Run Ant to Install Required Libraries ==
 
-After checkout out the sources from SVN, or else downloading the distribution, you must start by invoking "ant" at the top level of the project:
+After checkout from SVN or downloading the distribution, invoke the following command in the top-level directory:
 
 {{{
 % ant
 }}}
 
- This will do the following:
+This will download Ivy, use Ivy to download other required packages, and compile the project.
 
- * Download Ivy.
- * Use Ivy to download packages required for compilation, including JUnit and Robocode. 
- * Compile the system.
+If compilation fails, contact the [http://code.google.com/p/hale-aloha-cli-pichu/people/list project members] for help. 
 
-If you cannot successfully compile the system, please contact the project owner for help. 
+== 2.2 Verify Installation ==
 
-== 2.2 Verify installation ==
-
-Once compilation is successful, perform a "verification" of the system as follows:
+After successful compilation, verify the project as follows:
 
 {{{
 % ant -f verify.build.xml
 }}}
 
-This command will run JUnit, Checkstyle, PMD, !JavaDoc, and !FindBugs, and fail the build if any warnings are issued by these tools.  It will also download these packages using Ivy.  
+This command downloads the JUnit, Checkstyle, PMD, !JavaDoc, and !FindBugs tools using Ivy if they are not already present in the distribution.  Then it runs these tools and fails the build if these tools issue any warnings.
 
-If the verification does not succeed, then contact the project owner for help before proceeding. 
+If verification fails, contact the [http://code.google.com/p/hale-aloha-cli-pichu/people/list project members] for help.
 
 = 3.0 Development Guidelines =
 
-Once you have verified your local installation of hale-aloha-cli-pichu, you are ready for development.    We follow these development guidelines:
+After successful verification of the hale-aloha-cli-pichu system, development can truly commence.  Please keep the following guidelines in mind:
 
-  * We use Eclipse for development, and format the code using [http://ics-software-engineering.googlecode.com/svn/trunk/configfiles/eclipse.format.xml this format]. 
-
-  * For new features, please add an Issue that specifies what you plan to do. 
-
-  * Please develop a JUnit test case (either before, during, or after) development of a new feature to ensure it works.
-
-  * Before committing changes, please make sure that "ant -f verify.build.xml" runs successfully. 
+  * This project was developed in Eclipse using [http://ics-software-engineering.googlecode.com/svn/trunk/configfiles/eclipse.format.xml this format].
+  * Add an Issue specifying any additional features you plan to develop.
+  * Develop a JUnit test case anytime during development of a new feature to ensure its proper functionality.
+  * Ensure that `ant -f verify.build.xml` runs successfully before committing changes to the repository. 
