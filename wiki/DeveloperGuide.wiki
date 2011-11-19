@@ -1,4 +1,4 @@
-#summary Instructions for how to improve this system.
+#summary Steps to further the development of this command line interface program.
 #labels Featured
 
 *Table of Content*
