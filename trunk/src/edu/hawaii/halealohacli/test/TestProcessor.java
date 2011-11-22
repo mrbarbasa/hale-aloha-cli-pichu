@@ -4,7 +4,7 @@ import static org.junit.Assert.assertSame;
 import org.junit.Test;
 
 /**
- * 
+ * Tests the Processor class. 
  * 
  * @author Team Pichu
  */

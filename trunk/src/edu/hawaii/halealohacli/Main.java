@@ -14,6 +14,8 @@ public class Main {
   
   private static final String URL = "http://server.wattdepot.org:8190/wattdepot/";
   private static final String QUIT = "quit";
+  private static boolean checkConnection;
+  private static boolean run = false;
   
   /**
    * Give all commands access to the WattDepot client.
@@ -21,15 +23,37 @@ public class Main {
   public static final WattDepotClient CLIENT = new WattDepotClient(URL);
   
   /**
+   * Returns true if a successful connection to the WattDepot
+   * server is established; false otherwise.
+   * 
+   * @return true if successful connection; false otherwise
+   */
+  public static boolean getCheckConnection() {
+    return checkConnection;
+  }
+  
+  /**
+   * Returns true if the run method was successfully called;
+   * false otherwise.
+   * 
+   * @return true if run method was called; false otherwise
+   */
+  public static boolean getRun() {
+    return run;
+  }
+  
+  /**
    * Check that a successful connection to the WattDepot server has been established.
    */
   public static void checkConnection() {
     // Check to make sure a connection can be made
     if (CLIENT.isHealthy()) {
+      checkConnection = true;
       System.out.println("Connected successfully to the Hale Aloha WattDepot server.");
     }
     // If no connection, then exit right now
     else {
+      checkConnection = false;
       System.out.format("Could not connect to: %s%n", URL);
       return; // Prematurely exit the program
     }
@@ -44,6 +68,7 @@ public class Main {
   public static String run(String input) {
     Processor pro = new Processor(input);
     pro.run();
+    run = true;
     return pro.getOutput();
   }
   
@@ -60,6 +85,7 @@ public class Main {
     // Main loop that runs the program until the quit command is processed
     while (!quit) {
       if (!CLIENT.isHealthy()) { // Check connection to the server before each loop
+        checkConnection = false;
         System.out.format("Lost connection to: %s%n", URL);
         return; // Prematurely exit the program
       }
