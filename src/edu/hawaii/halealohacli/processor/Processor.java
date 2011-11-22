@@ -82,7 +82,7 @@ public class Processor {
         RankTowers rankTowers = new RankTowers(this.components.get(1), 
             this.components.get(2));
         rankTowers.run();
-        // this.output = rankTowers.getOutput();
+        this.output = rankTowers.getOutput();
       }
       else if ((HELP).equals(this.command)) {
         Help help = new Help();
