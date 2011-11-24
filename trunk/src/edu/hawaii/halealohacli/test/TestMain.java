@@ -19,7 +19,8 @@ public class TestMain {
   @Test
   public void testCheckConnection() {
     Main.checkConnection();
-    assertSame("Testing the connection to the WattDepot server", Main.getCheckConnection(), true);   
+    assertSame("Testing the connection to the WattDepot server", 
+               Main.getCheckConnection(), true);   
   }
   
   /**
