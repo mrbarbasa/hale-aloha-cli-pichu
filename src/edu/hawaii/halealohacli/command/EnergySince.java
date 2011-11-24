@@ -75,7 +75,7 @@ public class EnergySince implements Command {
     
     // Set the startTime to 00:00:00.000 on the date given by the user
     XMLGregorianCalendar startTime = Tstamp.makeTimestamp(startDate.getTime());
-    startTime.setTime(0, 0, 0, 0);
+    startTime.setTime(23, 0, 0, 0);
     
     // Set the endTime to the date and time given by the timestamp on the latest sensor data
     XMLGregorianCalendar endTime = this.client.getLatestSensorData(this.tower).getTimestamp();

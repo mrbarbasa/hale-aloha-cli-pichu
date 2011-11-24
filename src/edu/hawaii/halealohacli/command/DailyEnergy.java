@@ -37,6 +37,24 @@ public class DailyEnergy implements Command {
   }
   
   /**
+   * Checks if user entered a date that's out of the range.
+   * Example, if user entered 11/22, but today is 11/21 then
+   * the server doesn't have data of that date yet.
+   * 
+   * @param today - today's date.
+   * @param inputDate - date that user entered.
+   * @return - value indicating if user entered date that's out of range.
+   */
+  public int checkDate(long today, long inputDate) {
+   
+    if (inputDate > today) {
+      return 1;
+    }
+    
+    return 0;
+  }
+  
+  /**
    * Retrieves the energy of the certain day
    * specified by the user. Data range is from
    * 12 a.m. of specified day to 12 a.m. of the 
@@ -55,14 +73,24 @@ public class DailyEnergy implements Command {
    * @throws Exception - error.
    */
   public void run() throws Exception {
+    Date today = new Date();
     Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(this.day);
+    
+    if (checkDate(today.getTime(), date.getTime()) == 1) {
+      this.output = "Too early to retrieve data for " + this.day;
+    }
+    
+    if (this.tower.equals("") && this.day.equals("")) {
+      this.output = "Empty tower name and date.";
+    }
+    
     //Setting time for beginning of the day
     XMLGregorianCalendar start = Tstamp.makeTimestamp(date.getTime());
-    start.setTime(0, 0, 0);
+    start.setTime(23, 0, 0);
     
     //Setting the time for end of the day
     XMLGregorianCalendar end = Tstamp.incrementDays(Tstamp.makeTimestamp(date.getTime()), 1);
-    end.setTime(0, 0, 0);
+    end.setTime(22, 0, 0);
     double energy = this.client.getEnergyConsumed(this.tower, start, end, 0);
     energy /= 1000;
     this.dailyEnergy = energy;

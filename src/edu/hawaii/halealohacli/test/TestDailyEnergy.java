@@ -18,7 +18,7 @@ public class TestDailyEnergy {
    */
   @Test
   public void testDailyEnergy() throws Exception {
-    DailyEnergy energy = new DailyEnergy("Ilima", "2011-11-14");
+    DailyEnergy energy = new DailyEnergy("Ilima", "2011-11-22");
     energy.run();
     assertTrue("Testing daily energy", energy.getDailyEnergy() > 0);
   }
