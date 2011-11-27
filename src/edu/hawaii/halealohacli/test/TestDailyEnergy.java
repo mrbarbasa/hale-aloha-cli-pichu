@@ -1,6 +1,10 @@
 package edu.hawaii.halealohacli.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 import org.junit.Test;
 import edu.hawaii.halealohacli.command.DailyEnergy;
 
@@ -18,9 +22,27 @@ public class TestDailyEnergy {
    */
   @Test
   public void testDailyEnergy() throws Exception {
-    DailyEnergy energy = new DailyEnergy("Ilima", "2011-11-22");
-    energy.run();
-    assertTrue("Testing daily energy", energy.getDailyEnergy() > 0);
+    //Normal input
+    DailyEnergy deOne = new DailyEnergy("Ilima", "2011-11-23");
+    deOne.run();
+    assertTrue("Testing daily energy", deOne.getDailyEnergy() > 0);
+    
+    
+    Calendar today = Calendar.getInstance(Locale.US);
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+    //Adding one day to the current day
+    today.add(Calendar.DATE, 1);
+    String dayAhead = df.format(today.getTimeInMillis());
+    String message = "Too early to retrieve data for the date of " + dayAhead;
+    //Test one day ahead of current day
+    DailyEnergy deTwo = new DailyEnergy("Ilima", dayAhead);
+    deTwo.run();
+    assertEquals("Test one day ahead", message, deTwo.getOutput());
+    
+    
+    
+    
+    
   }
   
 
