@@ -76,27 +76,26 @@ public class DailyEnergy implements Command {
     Date today = new Date();
     Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(this.day);
     
+    //The date is too far ahead of the current date
     if (checkDate(today.getTime(), date.getTime()) == 1) {
-      this.output = "Too early to retrieve data for " + this.day;
+      this.output = "Too early to retrieve data for the date of " + this.day;
     }
-    
-    if (this.tower.equals("") && this.day.equals("")) {
-      this.output = "Empty tower name and date.";
+    else {
+      
+      //Setting time for beginning of the day
+      XMLGregorianCalendar start = Tstamp.makeTimestamp(date.getTime());
+      start.setTime(0, 0, 0);
+      
+      //Setting the time for end of the day
+      XMLGregorianCalendar end = Tstamp.incrementDays(Tstamp.makeTimestamp(date.getTime()), 1);
+      end.setTime(0, 0, 0);
+      double energy = this.client.getEnergyConsumed(this.tower, start, end, 0);
+      energy /= 1000;
+      this.dailyEnergy = energy;
+      
+      this.output = this.tower + "'s energy consumption for ";
+      this.output += this.day + " was: " + String.format("%.1f",energy) + " kWh.";
     }
-    
-    //Setting time for beginning of the day
-    XMLGregorianCalendar start = Tstamp.makeTimestamp(date.getTime());
-    start.setTime(23, 0, 0);
-    
-    //Setting the time for end of the day
-    XMLGregorianCalendar end = Tstamp.incrementDays(Tstamp.makeTimestamp(date.getTime()), 1);
-    end.setTime(22, 0, 0);
-    double energy = this.client.getEnergyConsumed(this.tower, start, end, 0);
-    energy /= 1000;
-    this.dailyEnergy = energy;
-    
-    this.output = this.tower + "'s energy consumption for ";
-    this.output += this.day + " was: " + String.format("%.1f",energy) + " kWh.";
   }
 
   

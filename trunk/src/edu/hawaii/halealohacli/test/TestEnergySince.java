@@ -21,7 +21,7 @@ public class TestEnergySince {
   @Test
   public void testEnergySince() throws Exception {
     String testSource = "Ilima";
-    String testDate = "2011-11-22";
+    String testDate = "2011-11-23";
     EnergySince es = new EnergySince(testSource, testDate);
     DailyEnergy de = new DailyEnergy(testSource, testDate);
     es.run();
