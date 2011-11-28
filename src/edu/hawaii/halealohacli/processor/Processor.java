@@ -33,7 +33,7 @@ public class Processor {
   private static final String QUIT = "quit";
   
   /**
-   * Creates a new processor instance.
+   * Creates a new processor instance given a String input.
    * 
    * @param input the string input to process
    */
@@ -87,7 +87,7 @@ public class Processor {
       else if ((HELP).equals(this.command)) {
         Help help = new Help();
         help.run();
-        // this.output = help.getOutput();
+        this.output = help.getOutput();
       }
       else if ((QUIT).equals(this.command)) {
         Quit quit = new Quit();

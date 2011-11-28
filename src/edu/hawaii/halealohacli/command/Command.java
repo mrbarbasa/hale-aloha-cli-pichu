@@ -12,19 +12,19 @@ public interface Command {
    * 
    * @throws Exception Generally, if problems occur in retrieving data from WattDepot.
    */
-  void run() throws Exception;
+  public void run() throws Exception;
 
   /**
    * Retrieves output of method.
    * 
    * @return String output of method.
    */
-  String getOutput();
+  public String getOutput();
 
   /**
    * Retrieves a description of the method and its functionality.
    * 
    * @return String description of method.
    */
-  String description();
+  public String getHelp();
 }

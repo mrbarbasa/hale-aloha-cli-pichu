@@ -26,14 +26,14 @@ public class RankTowers implements Command {
   private String start, end;
   
   /**
-   * Empty.
+   * Creates a new instance of the rank-towers command.
    */
   public RankTowers() {
-    //TODO
+    this.output = "";
   }
   
   /**
-   * Creates a new instance of the current-power command.
+   * Creates a new instance of the rank-towers command.
    * 
    * @param start the start time specified
    * @param end the end time specified
@@ -107,11 +107,12 @@ public class RankTowers implements Command {
    * @return a description of this command.
    */
   @Override
-  public String description() {
-    String message =
-        "Returns a list in sorted order from least to most energy consumed"
-            + " between the [start] and [end] date (yyyy-mm-dd)";
-    return message;
+  public String getHelp() {
+    String description = "rank-towers\n";
+    description += "  Usage: rank-towers [start] [end]\n";
+    description += "    Retrieves a list in sorted order from least to most energy consumed\n";
+    description += "    between the [start] and [end] dates specified by the user.\n\n";
+    return description;
   }
 
 }
