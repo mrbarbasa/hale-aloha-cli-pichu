@@ -1,6 +1,6 @@
 <project name="hale-aloha-cli-pichu" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
   <description>
-  Top-level build file for the WattDepot simpleapp system. 
+  Top-level build file for the Hale Aloha CLI Pichu program. 
   The default target compiles the system.
   </description>
 
@@ -9,7 +9,7 @@
   <property name="junit.version" value="4.9"/>
   <property name="wattdepot.version" value="1.5.1015"/>
 
-  <target name="install-libraries" description="Install JUnit and Robocode service libraries.">
+  <target name="install-libraries" description="Install JUnit and WattDepot service libraries.">
     <ivy:retrieve organisation="org.junit" module="junit" revision="${junit.version}" 
       pattern="${lib.dir}/junit/[artifact].[ext]" inline="true" conf="default" 
       log="download-only" transitive="false" type="jar" />
@@ -46,8 +46,8 @@
     </javac>
   </target>
   
-  <target name="run" depends="compile" description="Runs the simple application.">
-    <java classname="org.wattdepot.simpleapp.SimpleApplication" fork="yes" maxmemory="768m">
+  <target name="run" depends="compile" description="Runs the CLI program.">
+    <java classname="edu.hawaii.halealohacli.Main" fork="yes" maxmemory="768m">
       <classpath>
         <pathelement location="${build.dir}/classes" />
         <path refid="compile.classpath" />

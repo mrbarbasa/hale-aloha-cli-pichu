@@ -10,7 +10,7 @@
 
   <delete dir="${build.jar.dir}" quiet="true" />
 
-  <target name="jar" depends="compile" description="Create wattdepot-simpleapp.jar">
+  <target name="jar" depends="compile" description="Create hale-aloha-cli-pichu.jar">
     <!-- Define the directories and distribution name -->
     <mkdir dir="${tmp.dir}" />
     <mkdir dir="${build.jar.dir}" />
@@ -26,10 +26,10 @@
      <path refid="wattdepot.path" />
     </unjar>
     
-    <jar destfile="${build.jar.dir}/wattdepot-simpleapp.jar" basedir="${tmp.dir}">
+    <jar destfile="${build.jar.dir}/hale-aloha-cli-pichu.jar" basedir="${tmp.dir}">
      <manifest>
-        <attribute name="Main-Class" value="org.wattdepot.simpleapp.SimpleApplication" />
-        <attribute name="Implementation-Title" value="Simple WattDepot Application" />
+        <attribute name="Main-Class" value="edu.hawaii.halealohacli.Main" />
+        <attribute name="Implementation-Title" value="Hale Aloha CLI Pichu Program" />
         <attribute name="Implementation-Version" value="${version}" />
         <attribute name="Implementation-Vendor" value="Collaborative Software Development Laboratory, University of Hawaii" />
       </manifest>
