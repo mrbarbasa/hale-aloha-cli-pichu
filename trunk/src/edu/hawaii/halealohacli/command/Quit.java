@@ -8,11 +8,13 @@ package edu.hawaii.halealohacli.command;
  */
 public class Quit implements Command {
   
+  private String output;
+  
   /**
    * Creates a new instance of the quit command.
    */
   public Quit() {
-    // TODO
+    this.output = "";
   }
   
   /**
@@ -21,7 +23,7 @@ public class Quit implements Command {
    * @throws Exception This command doesn't really throw an exception.
    */
   public void run() throws Exception {
-    // TODO
+    this.output = "quit";
   }
   
   /**
@@ -30,7 +32,7 @@ public class Quit implements Command {
    * @return the output of calling this command
    */
   public String getOutput() {
-    return "quit";
+    return this.output;
   }
   
   /**
