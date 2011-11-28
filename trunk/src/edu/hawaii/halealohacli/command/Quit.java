@@ -38,9 +38,11 @@ public class Quit implements Command {
    * 
    * @return a description of this command
    */
-  public String description() {
-    // TODO
-    return "description";
+  public String getHelp() {
+    String description = "quit\n";
+    description += "  Usage: quit\n";
+    description += "    Terminates execution.";
+    return description;
   }
 
 }

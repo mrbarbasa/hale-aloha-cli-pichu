@@ -25,6 +25,13 @@ public class DailyEnergy implements Command {
   
   /**
    * Creates a new instance of the daily-energy command.
+   */
+  public DailyEnergy() {
+    this.output = "";
+  }
+  
+  /**
+   * Creates a new instance of the daily-energy command.
    * 
    * @param tower - name of the tower or lounge.
    * @param day - the date specified by user.
@@ -113,11 +120,11 @@ public class DailyEnergy implements Command {
    * 
    * @return a description of this command.
    */
-  public String description() {
-    String description = "Usage daily-energy [tower | lounge] date\n";
-    description += "  Retrieves the energy consumed by the source from\n";
-    description += "  the date specified by the user.";
-    
+  public String getHelp() {
+    String description = "daily-energy\n";
+    description += "  Usage: daily-energy [tower | lounge] [date]\n";
+    description += "    Retrieves the energy consumed by the source from\n";
+    description += "    the date specified by the user.\n\n";
     return description;
   }
 

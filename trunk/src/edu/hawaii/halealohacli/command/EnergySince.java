@@ -24,6 +24,13 @@ public class EnergySince implements Command {
   
   /**
    * Creates a new instance of the energy-since command.
+   */
+  public EnergySince() {
+    this.output = "";
+  }
+  
+  /**
+   * Creates a new instance of the energy-since command.
    * 
    * @param tower the tower specified
    * @param date the date specified
@@ -104,10 +111,11 @@ public class EnergySince implements Command {
    * 
    * @return a description of this command
    */
-  public String description() {
-    String description = "Usage: energy-since [tower | lounge] [date]\n";
-    description += "  Retrieves the energy consumed by a source from the date\n";
-    description += "  specified by the user to the time of the latest sensor data.\n\n";
+  public String getHelp() {
+    String description = "energy-since\n";
+    description += "  Usage: energy-since [tower | lounge] [date]\n";
+    description += "    Retrieves the energy consumed by the source from the date\n";
+    description += "    specified by the user to the time of the latest sensor data.\n\n";
     return description;
   }
   

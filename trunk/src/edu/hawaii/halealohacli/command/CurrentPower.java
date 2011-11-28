@@ -22,6 +22,13 @@ public class CurrentPower implements Command {
   
   /**
    * Creates a new instance of the current-power command.
+   */
+  public CurrentPower() {
+    this.output = "";
+  }
+  
+  /**
+   * Creates a new instance of the current-power command.
    * 
    * @param tower the tower specified
    */
@@ -72,10 +79,10 @@ public class CurrentPower implements Command {
    * 
    * @return a description of this command.
    */
-  public String description() {
-    String description = "Usage current-power [tower | lounge]\n";
-    description += "  Retrieves the power of the particular source.";
-    
+  public String getHelp() {
+    String description = "current-power\n";
+    description += "  Usage: current-power [tower | lounge]\n";
+    description += "    Retrieves the current power of the particular source.\n\n";
     return description;
   }
 }
