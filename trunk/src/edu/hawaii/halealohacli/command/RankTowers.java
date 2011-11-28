@@ -76,18 +76,48 @@ public class RankTowers implements Command {
       }
     }
   }
+  
+  /**
+   * Checks if user entered a date that's out of the range.
+   * Example, if user entered 11/22, but today is 11/21 then
+   * the server doesn't have data of that date yet.
+   * 
+   * @param today - today's date.
+   * @param inputDate - date that user entered.
+   * @return - value indicating if user entered date that's out of range.
+   */
+  public int checkDate(long today, long inputDate) {
+   
+    if (inputDate > today || inputDate == today) {
+      return 1;
+    }
+    
+    return 0;
+  }
+  
+  
   /**
    * Runs this command.
    * 
    * @throws Exception - error.
    */
   public void run() throws Exception {
-    getEnergy();
-    this.output = "For the interval " + start + " to " + end;
-    this.output += " energy consumption by tower was: \n\n";
-    for (SensorWatts watt : energies) {
-      this.output += String.format("%-20s    %.1f\n", watt.getSourceName(), 
-                                   watt.getWatts());
+    Date today = new Date();
+    Date startDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(this.start);
+    Date endDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(this.end);
+    
+    if (checkDate(today.getTime(), startDate.getTime()) == 1 ||
+        checkDate(today.getTime(), endDate.getTime()) == 1) {
+      this.output = "Too early to retrieve data for the dates entered";
+    }
+    else {
+      getEnergy();
+      this.output = "For the interval " + start + " to " + end;
+      this.output += " energy consumption by tower was: \n\n";
+      for (SensorWatts watt : energies) {
+        this.output += String.format("%-20s    %.1f\n", watt.getSourceName(), 
+                                     watt.getWatts());
+      }
     }
   }
 

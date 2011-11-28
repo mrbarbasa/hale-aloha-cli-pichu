@@ -54,7 +54,7 @@ public class DailyEnergy implements Command {
    */
   public int checkDate(long today, long inputDate) {
    
-    if (inputDate > today) {
+    if (inputDate > today || inputDate == today) {
       return 1;
     }
     
@@ -91,11 +91,11 @@ public class DailyEnergy implements Command {
       
       //Setting time for beginning of the day
       XMLGregorianCalendar start = Tstamp.makeTimestamp(date.getTime());
-      start.setTime(0, 0, 0);
+      start.setTime(0, 0, 0, 0);
       
       //Setting the time for end of the day
       XMLGregorianCalendar end = Tstamp.incrementDays(Tstamp.makeTimestamp(date.getTime()), 1);
-      end.setTime(0, 0, 0);
+      end.setTime(0, 0, 0, 0);
       double energy = this.client.getEnergyConsumed(this.tower, start, end, 0);
       energy /= 1000;
       this.dailyEnergy = energy;
