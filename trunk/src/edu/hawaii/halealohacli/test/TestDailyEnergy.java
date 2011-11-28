@@ -39,10 +39,6 @@ public class TestDailyEnergy {
     deTwo.run();
     assertEquals("Test one day ahead", message, deTwo.getOutput());
     
-    
-    
-    
-    
   }
   
 
