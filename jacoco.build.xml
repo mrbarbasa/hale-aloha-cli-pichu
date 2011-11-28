@@ -28,7 +28,7 @@
            <pathelement location="${build.dir}/classes" />
            <path refid="compile.classpath"/>
          </classpath>
-         <sysproperty key="robocode.home" value="${lib.dir}/robocode"/>
+         <sysproperty key="wattdepot.home" value="${lib.dir}/wattdepot"/>
          <batchtest todir="${junit.build.dir}">
            <fileset dir="${src.dir}" includes="**/Test*.java"/>
          </batchtest>
