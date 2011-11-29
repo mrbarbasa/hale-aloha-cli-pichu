@@ -6,12 +6,12 @@
 
 = 1.0 Download =
 
-Download the latest distribution of Pichu from the [http://code.google.com/p/hale-aloha-cli-pichu/downloads/list Downloads] page.
+Download the latest distribution of the hale-aloha-cli-pichu program from the [http://code.google.com/p/hale-aloha-cli-pichu/downloads/list Downloads] page.
 
 Unzip the distribution in a directory of your choice.
 
 = 2.0 Install =
 
-Find the file named `hale-aloha-cli-pichu_{version}.jar` in the distribution.
+Find the file named `hale-aloha-cli-pichu.jar` in the top-level directory of the distribution.
 
-Use a terminal program to invoke the following: `java -jar hale-aloha-cli.jar`
+In the top-level directory, use a terminal program to invoke the following: `java -jar hale-aloha-cli-pichu.jar`
