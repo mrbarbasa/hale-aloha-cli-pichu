@@ -40,7 +40,8 @@ After successful verification of the hale-aloha-cli-pichu system, development ca
 
   * This project was developed in Eclipse using [http://ics-software-engineering.googlecode.com/svn/trunk/configfiles/eclipse.format.xml this format].
   * The Continuous Integration server associated with this project is [http://dasha.ics.hawaii.edu:9859/job/hale-aloha-cli-pichu/ Jenkins].
-  * If you wish to refer to the JavaDocs, generate them using the following command `ant -f javadoc.build.xml`.
-  * Add an issue specifying any additional features/commands you plan to develop.  Make sure to keep tabs on the status of the issue and update it whenever appropriate.
+  * If you wish to refer to the !JavaDocs, generate them using the following command: `ant -f javadoc.build.xml`
+  * Add an issue specifying any additional features/commands you plan to develop.
+Make sure to keep tabs on the status of the issue and update it whenever appropriate.
   * Develop a JUnit test case anytime during development of a new feature/command to ensure its proper functionality.
   * Ensure that `ant -f verify.build.xml` runs successfully before committing changes to the repository.
