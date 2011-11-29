@@ -4,10 +4,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Pattern;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.wattdepot.client.WattDepotClient;
 import org.wattdepot.util.tstamp.Tstamp;
 import edu.hawaii.halealohacli.Main;
+import edu.hawaii.halealohacli.processor.Processor;
 
 /**
  * Retrieves a certain source's energy data
@@ -25,6 +27,11 @@ public class DailyEnergy implements Command {
   private double dailyEnergy;
   
   /**
+   * The command daily-energy takes 2 arguments.
+   */
+  public static final int ARGS = 2;
+  
+  /**
    * Creates a new instance of the daily-energy command.
    */
   public DailyEnergy() {
@@ -36,12 +43,41 @@ public class DailyEnergy implements Command {
    * 
    * @param tower - name of the tower or lounge.
    * @param day - the date specified by user.
+   * @throws InvalidArgumentsException when the arguments supplied by the user are invalid
    */
-  public DailyEnergy(String tower, String day) {
-    this.client = Main.CLIENT;
-    this.tower = tower;
-    this.day = day;
-    this.dailyEnergy = 0;
+  public DailyEnergy(String tower, String day) throws InvalidArgumentsException {
+    if (this.checkArgs(tower, day)) {
+      this.client = Main.CLIENT;
+      this.tower = tower;
+      this.day = day;
+      this.dailyEnergy = 0;
+    }
+    else {
+      throw new InvalidArgumentsException();
+    }
+  }
+  
+  /**
+   * Returns true if the arguments to daily-energy are valid.
+   * 
+   * @param args the arguments to be checked for validity
+   * @return true if all arguments are valid; false otherwise
+   */
+  public boolean checkArgs(String... args) {
+    boolean valid = false;
+    String lounge = "-[A-E]";
+    if (((Processor.ILIMA).equals(args[0]) 
+        || Pattern.matches(Processor.ILIMA + lounge, args[0])
+        || (Processor.LEHUA).equals(args[0]) 
+        || Pattern.matches(Processor.LEHUA + lounge, args[0])
+        || (Processor.LOKELANI).equals(args[0]) 
+        || Pattern.matches(Processor.LOKELANI + lounge, args[0])
+        || (Processor.MOKIHANA).equals(args[0]) 
+        || Pattern.matches(Processor.MOKIHANA + lounge, args[0]))
+        && Pattern.matches("[0-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]", args[1])) {
+      valid = true;
+    }
+    return valid;
   }
   
   /**
@@ -133,7 +169,7 @@ public class DailyEnergy implements Command {
     String description = "daily-energy\n";
     description += "  Usage: daily-energy [tower | lounge] [date]\n";
     description += "    Retrieves the energy consumed by the source from\n";
-    description += "    the date specified by the user.\n\n";
+    description += "    the date specified by the user.";
     return description;
   }
 

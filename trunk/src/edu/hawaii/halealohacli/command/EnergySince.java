@@ -2,10 +2,12 @@ package edu.hawaii.halealohacli.command;
 
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Pattern;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.wattdepot.client.WattDepotClient;
 import org.wattdepot.util.tstamp.Tstamp;
 import edu.hawaii.halealohacli.Main;
+import edu.hawaii.halealohacli.processor.Processor;
 import java.text.SimpleDateFormat;
 
 /**
@@ -23,6 +25,11 @@ public class EnergySince implements Command {
   private double energySince;
   
   /**
+   * The command energy-since takes 2 arguments.
+   */
+  public static final int ARGS = 2;
+  
+  /**
    * Creates a new instance of the energy-since command.
    */
   public EnergySince() {
@@ -34,12 +41,41 @@ public class EnergySince implements Command {
    * 
    * @param tower the tower specified
    * @param date the date specified
+   * @throws InvalidArgumentsException when the arguments supplied by the user are invalid
    */
-  public EnergySince(String tower, String date) {
-    this.client = Main.CLIENT;
-    this.tower = tower;
-    this.date = date;
-    this.energySince = 0;
+  public EnergySince(String tower, String date) throws InvalidArgumentsException {
+    if (this.checkArgs(tower, date)) {
+      this.client = Main.CLIENT;
+      this.tower = tower;
+      this.date = date;
+      this.energySince = 0;
+    }
+    else {
+      throw new InvalidArgumentsException();
+    }
+  }
+  
+  /**
+   * Returns true if the arguments to energy-since are valid.
+   * 
+   * @param args the arguments to be checked for validity
+   * @return true if all arguments are valid; false otherwise
+   */
+  public boolean checkArgs(String... args) {
+    boolean valid = false;
+    String lounge = "-[A-E]";
+    if (((Processor.ILIMA).equals(args[0]) 
+        || Pattern.matches(Processor.ILIMA + lounge, args[0])
+        || (Processor.LEHUA).equals(args[0]) 
+        || Pattern.matches(Processor.LEHUA + lounge, args[0])
+        || (Processor.LOKELANI).equals(args[0]) 
+        || Pattern.matches(Processor.LOKELANI + lounge, args[0])
+        || (Processor.MOKIHANA).equals(args[0]) 
+        || Pattern.matches(Processor.MOKIHANA + lounge, args[0]))
+        && Pattern.matches("[0-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]", args[1])) {
+      valid = true;
+    }
+    return valid;
   }
   
   /**
@@ -115,7 +151,7 @@ public class EnergySince implements Command {
     String description = "energy-since\n";
     description += "  Usage: energy-since [tower | lounge] [date]\n";
     description += "    Retrieves the energy consumed by the source from the date\n";
-    description += "    specified by the user to the time of the latest sensor data.\n\n";
+    description += "    specified by the user to the time of the latest sensor data.";
     return description;
   }
   
