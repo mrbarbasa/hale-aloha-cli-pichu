@@ -1,5 +1,6 @@
 package edu.hawaii.halealohacli.command;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -49,19 +50,42 @@ public class CurrentPower implements Command {
   }
   
   /**
+   * Checks if the tower name is actually a word
+   * instead of a date (e.g. 2011-10-31).
+   * 
+   * @return an integer value.
+   */
+  public int checkTowerName() {
+    try {
+      SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+      date.parse(this.tower);
+      return 0;
+    }
+    catch (ParseException e) {
+     return 1;
+    }
+  
+  }
+  /**
    * Runs this command.
    * 
    * @throws Exception - error.
    */
   public void run() throws Exception {
-    double power = this.client.getLatestPowerConsumed(this.tower);
-    power /= 1000;
-    this.currentPower = power;
-    Calendar date = Calendar.getInstance(Locale.US);
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.US);
- 
-    this.output = this.tower + "'s power as of " + df.format(date.getTimeInMillis());
-    this.output += " was " + String.format("%.1f", power) + " kW.";
+    
+    if (checkTowerName() == 0) {
+      this.output = "Tower name invalid.";
+    }
+    else {
+      double power = this.client.getLatestPowerConsumed(this.tower);
+      power /= 1000;
+      this.currentPower = power;
+      Calendar date = Calendar.getInstance(Locale.US);
+      SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.US);
+   
+      this.output = this.tower + "'s power as of " + df.format(date.getTimeInMillis());
+      this.output += " was " + String.format("%.1f", power) + " kW.";
+    }
   }
   
   /**

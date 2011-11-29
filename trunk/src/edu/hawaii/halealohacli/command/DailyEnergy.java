@@ -1,5 +1,6 @@
 package edu.hawaii.halealohacli.command;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -60,6 +61,7 @@ public class DailyEnergy implements Command {
     
     return 0;
   }
+
   
   /**
    * Retrieves the energy of the certain day
@@ -80,29 +82,36 @@ public class DailyEnergy implements Command {
    * @throws Exception - error.
    */
   public void run() throws Exception {
-    Date today = new Date();
-    Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(this.day);
     
-    //The date is too far ahead of the current date
-    if (checkDate(today.getTime(), date.getTime()) == 1) {
-      this.output = "Too early to retrieve data for the date of " + this.day;
+    try {
+      Date today = new Date();
+      Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(this.day);
+      
+      //The date is too far ahead of the current date
+      if (checkDate(today.getTime(), date.getTime()) == 1) {
+        this.output = "Too early to retrieve data for the date of " + this.day;
+      }
+      else {
+        
+        //Setting time for beginning of the day
+        XMLGregorianCalendar start = Tstamp.makeTimestamp(date.getTime());
+        start.setTime(0, 0, 0, 0);
+        
+        //Setting the time for end of the day
+        XMLGregorianCalendar end = Tstamp.incrementDays(Tstamp.makeTimestamp(date.getTime()), 1);
+        end.setTime(0, 0, 0, 0);
+        double energy = this.client.getEnergyConsumed(this.tower, start, end, 0);
+        energy /= 1000;
+        this.dailyEnergy = energy;
+        
+        this.output = this.tower + "'s energy consumption for ";
+        this.output += this.day + " was: " + String.format("%.1f",energy) + " kWh.";
+      }
     }
-    else {
-      
-      //Setting time for beginning of the day
-      XMLGregorianCalendar start = Tstamp.makeTimestamp(date.getTime());
-      start.setTime(0, 0, 0, 0);
-      
-      //Setting the time for end of the day
-      XMLGregorianCalendar end = Tstamp.incrementDays(Tstamp.makeTimestamp(date.getTime()), 1);
-      end.setTime(0, 0, 0, 0);
-      double energy = this.client.getEnergyConsumed(this.tower, start, end, 0);
-      energy /= 1000;
-      this.dailyEnergy = energy;
-      
-      this.output = this.tower + "'s energy consumption for ";
-      this.output += this.day + " was: " + String.format("%.1f",energy) + " kWh.";
+    catch (ParseException e) {
+      this.output = "Invalid input.";
     }
+    
   }
 
   
