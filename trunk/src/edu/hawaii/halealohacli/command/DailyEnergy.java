@@ -14,7 +14,7 @@ import edu.hawaii.halealohacli.processor.Processor;
 /**
  * Retrieves a certain source's energy data
  * on a certain day. Data starts at 12 a.m.
- * of that day to 12 a.m.of the next day.
+ * of that day to 12 a.m. of the next day.
  * 
  * @author Team Pichu
  */
@@ -41,9 +41,9 @@ public class DailyEnergy implements Command {
   /**
    * Creates a new instance of the daily-energy command.
    * 
-   * @param tower - name of the tower or lounge.
-   * @param day - the date specified by user.
-   * @throws InvalidArgumentsException when the arguments supplied by the user are invalid
+   * @param tower the tower or lounge specified
+   * @param day the date specified
+   * @throws InvalidArgumentsException If the arguments supplied by the user are invalid.
    */
   public DailyEnergy(String tower, String day) throws InvalidArgumentsException {
     if (this.checkArgs(tower, day)) {
@@ -81,16 +81,15 @@ public class DailyEnergy implements Command {
   }
   
   /**
-   * Checks if user entered a date that's out of the range.
-   * Example, if user entered 11/22, but today is 11/21 then
-   * the server doesn't have data of that date yet.
+   * Checks if the user entered a date that's out of the range.
+   * For example, if the user entered 11/22, but today is 11/21,
+   * then the server doesn't have data from 11/22 yet.
    * 
-   * @param today - today's date.
-   * @param inputDate - date that user entered.
-   * @return - value indicating if user entered date that's out of range.
+   * @param today today's date
+   * @param inputDate date that the user entered
+   * @return value indicating if the user entered a date that's out of range
    */
-  public int checkDate(long today, long inputDate) {
-   
+  public int checkDate(long today, long inputDate) {  
     if (inputDate > today || inputDate == today) {
       return 1;
     }
@@ -106,7 +105,7 @@ public class DailyEnergy implements Command {
    * next day. In other words from start of day
    * to end of day.
    *
-   * @return the amount of energy used by the source.
+   * @return the amount of energy used by the source
    */
   public double getDailyEnergy() {
     return this.dailyEnergy;
@@ -114,11 +113,14 @@ public class DailyEnergy implements Command {
   
   /**
    * Runs this command.
+   * Saves the total energy consumed in kWh since the start date
+   * at 00:00:00.000 to the next day at 00:00:00.000.
    * 
-   * @throws Exception - error.
+   * @throws Exception If problems occur in retrieving data from WattDepot or the
+   * start date provided by the user is after the date of the latest sensor data.
    */
-  public void run() throws Exception {
-    
+  @Override
+  public void run() throws Exception {    
     try {
       Date today = new Date();
       Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(this.day);
@@ -127,8 +129,7 @@ public class DailyEnergy implements Command {
       if (checkDate(today.getTime(), date.getTime()) == 1) {
         this.output = "Too early to retrieve data for the date of " + this.day;
       }
-      else {
-        
+      else {        
         //Setting time for beginning of the day
         XMLGregorianCalendar start = Tstamp.makeTimestamp(date.getTime());
         start.setTime(0, 0, 0, 0);
@@ -146,16 +147,15 @@ public class DailyEnergy implements Command {
     }
     catch (ParseException e) {
       this.output = "Invalid input.";
-    }
-    
+    } 
   }
-
   
   /**
-   * Returns a string representation of the output of this command.
+   * Returns a string representation of the output of calling this command.
    * 
-   * @return the output of this command.
+   * @return the output of calling this command
    */
+  @Override
   public String getOutput() {
     return this.output;
   }
@@ -163,8 +163,9 @@ public class DailyEnergy implements Command {
   /**
    * Retrieves a description of this command and its functionality.
    * 
-   * @return a description of this command.
+   * @return a description of this command and its functionality
    */
+  @Override
   public String getHelp() {
     String description = "daily-energy\n";
     description += "  Usage: daily-energy [tower | lounge] [date]\n";

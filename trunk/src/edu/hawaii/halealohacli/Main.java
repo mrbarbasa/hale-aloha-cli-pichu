@@ -5,8 +5,7 @@ import org.wattdepot.client.WattDepotClient;
 import edu.hawaii.halealohacli.processor.Processor;
 
 /**
- * Driver class to run the Hale Aloha
- * command line interface program.
+ * Driver class that runs the hale-aloha-cli-pichu program.
  * 
  * @author Team Pichu
  */
@@ -18,7 +17,7 @@ public class Main {
   private static boolean run = false;
   
   /**
-   * Give all commands access to the WattDepot client.
+   * Gives all commands access to the WattDepot client.
    */
   public static final WattDepotClient CLIENT = new WattDepotClient(URL);
   
@@ -43,7 +42,7 @@ public class Main {
   }
   
   /**
-   * Check that a successful connection to the WattDepot server has been established.
+   * Checks that a successful connection to the WattDepot server has been established.
    */
   public static void checkConnection() {
     // Check to make sure a connection can be made
@@ -60,7 +59,7 @@ public class Main {
   }
   
   /**
-   * Call the Processor to process the user input.
+   * Calls the Processor to process the user input.
    * 
    * @param input the command and arguments that the user has input
    * @return the output the processor has received from a command
@@ -73,7 +72,7 @@ public class Main {
   }
   
   /**
-   * Runs the Hale Aloha command line interface program.
+   * Runs the hale-aloha-cli-pichu program.
    * 
    * @param args no command line arguments required
    */

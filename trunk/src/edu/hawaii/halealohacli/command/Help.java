@@ -1,7 +1,8 @@
 package edu.hawaii.halealohacli.command;
 
 /**
- * Command to acquire the descriptions of each command.
+ * Provides information on valid arguments and
+ * acquires the description of each command.
  * 
  * @author Team Pichu
  */
@@ -36,20 +37,11 @@ public class Help implements Command {
   }
   
   /**
-   * Not needed for the help command.
-   * 
-   * @param args the arguments to be checked for validity
-   * @return true by default (because help has no arguments)
-   */
-  public boolean checkArgs(String... args) {
-    return true;
-  }
-  
-  /**
    * Runs this command.
    * 
-   * @throws Exception This command doesn't really throw an exception.
+   * @throws Exception Doesn't really throw an exception.
    */
+  @Override
   public void run() throws Exception {
     this.output += "COMMANDS:\n";
     this.output += "Here are the available commands for this system.\n\n";
@@ -73,6 +65,7 @@ public class Help implements Command {
    * 
    * @return the output of calling this command
    */
+  @Override
   public String getOutput() {
     return this.output;
   }
@@ -80,8 +73,9 @@ public class Help implements Command {
   /**
    * Retrieves a description of this command and its functionality.
    * 
-   * @return a description of this command
+   * @return a description of this command and its functionality
    */
+  @Override
   public String getHelp() {
     String description = "help\n";
     description += "  Usage: help\n";

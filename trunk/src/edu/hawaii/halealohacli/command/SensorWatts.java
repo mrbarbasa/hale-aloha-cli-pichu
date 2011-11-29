@@ -2,11 +2,10 @@ package edu.hawaii.halealohacli.command;
 
 
 /**
- * Represent a sensor with attributes of
+ * Represents a sensor with attributes of
  * the source's name and the energy (in kWh).
  * 
  * @author Team Pichu
- *
  */
 public class SensorWatts implements Comparable<SensorWatts> {
   
@@ -14,10 +13,10 @@ public class SensorWatts implements Comparable<SensorWatts> {
   private double watts;
   
   /**
-   * Creating object of SensorWatts class.
+   * Creates an instance of the SensorWatts class.
    * 
-   * @param sourceName - name of the source from WattDepot.
-   * @param watts - energy used by the sensor.
+   * @param sourceName name of the source from WattDepot
+   * @param watts energy used by the sensor
    */
   public SensorWatts(String sourceName, double watts) {
     this.sourceName = sourceName;
@@ -25,8 +24,8 @@ public class SensorWatts implements Comparable<SensorWatts> {
   }
   
   /**
-   * Returns name of the source.
-   * @return - sourceName
+   * Returns the name of the source.
+   * @return the name of the source
    */
   public String getSourceName() {
     return sourceName;
@@ -34,16 +33,16 @@ public class SensorWatts implements Comparable<SensorWatts> {
   
   /**
    * Returns the energy used by the sensor.
-   * @return - watts
+   * @return the energy used by the sensor
    */
   public double getWatts() {
     return watts;
   }
   
   /**
-   * Value of the object.
+   * Returns the hash code value of this instance.
    * 
-   * @return - hashValue
+   * @return the hash code value of this instance
    */
   @Override
   public int hashCode() {
@@ -56,14 +55,13 @@ public class SensorWatts implements Comparable<SensorWatts> {
   }
   
   /**
-   * Test equality of objects.
+   * Tests the equality of SensorWatts instances.
    * 
-   * @param obj - generic Object.
-   * @return - true or false.
+   * @param obj a generic object
+   * @return true if equal; false otherwise
    */
   @Override
-  public boolean equals(Object obj) {
-    
+  public boolean equals(Object obj) {   
     if (this == obj) {
       return true;
     }
@@ -89,14 +87,13 @@ public class SensorWatts implements Comparable<SensorWatts> {
     }
     
     return true;
-    
   }
   
   /**
-   * Compares the watts (energy) to use in sorting.
+   * Compares the watts (energy) for use in sorting.
    * 
-   * @param sw - SensorWatts object.
-   * @return - value indicating the comparison between the watts.
+   * @param sw SensorWatts instance to be compared with
+   * @return the value indicating the comparison between the watts
    */
   @Override
   public int compareTo(SensorWatts sw) {

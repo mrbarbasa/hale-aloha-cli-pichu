@@ -19,8 +19,8 @@ public class TestDailyEnergy {
   
   /**
    * Tests if the energy consumed on the specified date is greater than 0.
-   * Test if user entered a date too early to retrieve data.
-   * Test if user enters a word for the date parameter.
+   * Tests if the user entered a date too early to retrieve data.
+   * Tests if the user enters a word for the date parameter.
    * 
    * @throws Exception If problems occur in retrieving data from WattDepot.
    */
@@ -29,8 +29,7 @@ public class TestDailyEnergy {
     //Normal input
     DailyEnergy deOne = new DailyEnergy("Ilima", "2011-11-23");
     deOne.run();
-    assertTrue("Testing daily energy", deOne.getDailyEnergy() > 0);
-    
+    assertTrue("Testing daily energy", deOne.getDailyEnergy() > 0);    
     
     Calendar today = Calendar.getInstance(Locale.US);
     SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -41,7 +40,7 @@ public class TestDailyEnergy {
     //Test one day ahead of current day
     DailyEnergy deTwo = new DailyEnergy("Ilima", dayAhead);
     deTwo.run();
-    assertEquals("Test one day ahead", message, deTwo.getOutput());
+    assertEquals("Testing one day ahead", message, deTwo.getOutput());
     
     //Second input is suppose to be a date (e.g. 2011-10-31), but
     //user entered a word instead
@@ -52,9 +51,7 @@ public class TestDailyEnergy {
     catch (InvalidArgumentsException e) {
       caught = true;
     }
-    assertSame("Test invalid input for date", caught, true);
-    
+    assertSame("Testing invalid input for date", caught, true);    
   }
-  
 
 }
