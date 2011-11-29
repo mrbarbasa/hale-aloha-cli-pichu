@@ -2,11 +2,13 @@ package edu.hawaii.halealohacli.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertSame;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import org.junit.Test;
 import edu.hawaii.halealohacli.command.DailyEnergy;
+import edu.hawaii.halealohacli.command.InvalidArgumentsException;
 
 /**
  * Tests the DailyEnergy class.
@@ -43,10 +45,14 @@ public class TestDailyEnergy {
     
     //Second input is suppose to be a date (e.g. 2011-10-31), but
     //user entered a word instead
-    DailyEnergy deThree = new DailyEnergy("Mokihana", "Test");
-    deThree.run();
-    String error = "Invalid input.";
-    assertEquals("Test invalid input for date", error, deThree.getOutput());
+    boolean caught = false;
+    try {
+      new DailyEnergy("Mokihana", "Test");
+    }
+    catch (InvalidArgumentsException e) {
+      caught = true;
+    }
+    assertSame("Test invalid input for date", caught, true);
     
   }
   

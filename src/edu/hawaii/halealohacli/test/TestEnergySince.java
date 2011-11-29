@@ -1,9 +1,11 @@
 package edu.hawaii.halealohacli.test;
 
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import edu.hawaii.halealohacli.command.DailyEnergy;
 import edu.hawaii.halealohacli.command.EnergySince;
+import edu.hawaii.halealohacli.command.InvalidArgumentsException;
 
 /**
  * Tests the EnergySince class.
@@ -27,6 +29,16 @@ public class TestEnergySince {
     es.run();
     de.run();
     assertTrue("Testing energy since", es.getEnergySince() > de.getDailyEnergy());
+    
+    // Test for invalid input
+    boolean caught = false;
+    try {
+      new EnergySince("2011-11-25", "Ilima-B");
+    }
+    catch (InvalidArgumentsException e) {
+      caught = true;
+    }
+    assertSame("Test invalid input", caught, true);
   }
 
 }

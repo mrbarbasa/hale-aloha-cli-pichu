@@ -1,9 +1,10 @@
 package edu.hawaii.halealohacli.test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import edu.hawaii.halealohacli.command.CurrentPower;
+import edu.hawaii.halealohacli.command.InvalidArgumentsException;
 
 /**
  * Tests the CurrentPower class.
@@ -24,11 +25,15 @@ public class TestCurrentPower {
     power.run();
     assertTrue("Testing current power", power.getCurrentPower() > 0);
     
-    //Input is suppose to be a tower name, but a date was entered
-    CurrentPower invalid = new CurrentPower("2011-11-24");
-    invalid.run();
-    String message = "Tower name invalid.";
-    assertEquals("Test invalid input", message, invalid.getOutput());
+    //Input is suppose to be a tower name, but a date was entered    
+    boolean caught = false;
+    try {
+      new CurrentPower("2011-11-24");
+    }
+    catch (InvalidArgumentsException e) {
+      caught = true;
+    }
+    assertSame("Test invalid input", caught, true);
   }
 
 }

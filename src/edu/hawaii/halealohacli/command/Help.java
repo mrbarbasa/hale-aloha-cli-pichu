@@ -10,6 +10,11 @@ public class Help implements Command {
   private String output;
   
   /**
+   * The command help takes 0 arguments.
+   */
+  public static final int ARGS = 0;
+  
+  /**
    * Creates a new instance of the help command.
    */
   public Help() {
@@ -31,6 +36,16 @@ public class Help implements Command {
   }
   
   /**
+   * Not needed for the help command.
+   * 
+   * @param args the arguments to be checked for validity
+   * @return true by default (because help has no arguments)
+   */
+  public boolean checkArgs(String... args) {
+    return true;
+  }
+  
+  /**
    * Runs this command.
    * 
    * @throws Exception This command doesn't really throw an exception.
@@ -38,16 +53,17 @@ public class Help implements Command {
   public void run() throws Exception {
     this.output += "COMMANDS:\n";
     this.output += "Here are the available commands for this system.\n\n";
+    String newline = "\n\n";
     CurrentPower cp = new CurrentPower();
-    this.output += cp.getHelp();
+    this.output += cp.getHelp() + newline;
     DailyEnergy de = new DailyEnergy();
-    this.output += de.getHelp();
+    this.output += de.getHelp() + newline;
     EnergySince es = new EnergySince();
-    this.output += es.getHelp();
+    this.output += es.getHelp() + newline;
     RankTowers rt = new RankTowers();
-    this.output += rt.getHelp();
+    this.output += rt.getHelp() + newline;
     Help help = new Help();
-    this.output += help.getHelp();
+    this.output += help.getHelp() + newline;
     Quit quit = new Quit();
     this.output += quit.getHelp();
   }
@@ -69,7 +85,7 @@ public class Help implements Command {
   public String getHelp() {
     String description = "help\n";
     description += "  Usage: help\n";
-    description += "    Provides a brief description of each command and its usage.\n\n";
+    description += "    Provides a brief description of each command and its usage.";
     return description;
   }
 

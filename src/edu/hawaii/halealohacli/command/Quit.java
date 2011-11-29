@@ -11,10 +11,25 @@ public class Quit implements Command {
   private String output;
   
   /**
+   * The command quit takes 0 arguments.
+   */
+  public static final int ARGS = 0;
+  
+  /**
    * Creates a new instance of the quit command.
    */
   public Quit() {
     this.output = "";
+  }
+  
+  /**
+   * Not needed for the quit command.
+   * 
+   * @param args the arguments to be checked for validity
+   * @return true by default (because quit has no arguments)
+   */
+  public boolean checkArgs(String... args) {
+    return true;
   }
   
   /**

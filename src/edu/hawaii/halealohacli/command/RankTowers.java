@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.wattdepot.client.WattDepotClient;
 import org.wattdepot.resource.source.jaxb.Source;
@@ -26,6 +27,11 @@ public class RankTowers implements Command {
   private String start, end;
   
   /**
+   * The command rank-towers takes 2 arguments.
+   */
+  public static final int ARGS = 2;
+  
+  /**
    * Creates a new instance of the rank-towers command.
    */
   public RankTowers() {
@@ -37,14 +43,33 @@ public class RankTowers implements Command {
    * 
    * @param start the start time specified
    * @param end the end time specified
-   * @throws Exception - error.
+   * @throws InvalidArgumentsException when the arguments supplied by the user are invalid
    */
-  public RankTowers(String start, String end) throws Exception {
-    this.client = Main.CLIENT;
-    this.start = start;
-    this.end = end;
-    
-  } 
+  public RankTowers(String start, String end) throws InvalidArgumentsException {
+    if (this.checkArgs(start, end)) {
+      this.client = Main.CLIENT;
+      this.start = start;
+      this.end = end;
+    }
+    else {
+      throw new InvalidArgumentsException();
+    }
+  }
+  
+  /**
+   * Returns true if the arguments to rank-towers are valid.
+   * 
+   * @param args the arguments to be checked for validity
+   * @return true if all arguments are valid; false otherwise
+   */
+  public boolean checkArgs(String... args) {
+    boolean valid = false;
+    if (Pattern.matches("[0-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]", args[0])
+        && Pattern.matches("[0-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]", args[1])) {
+      valid = true;
+    }
+    return valid;
+  }
   
   /**
    * Retrieves each tower's energy and
@@ -115,8 +140,8 @@ public class RankTowers implements Command {
       this.output = "For the interval " + start + " to " + end;
       this.output += " energy consumption by tower was: \n\n";
       for (SensorWatts watt : energies) {
-        this.output += String.format("%-20s    %.1f\n", watt.getSourceName(), 
-                                     watt.getWatts());
+        this.output += String.format("%-20s    %.1f %5s\n", watt.getSourceName(), 
+                                     watt.getWatts(), "kWh");
       }
     }
   }
@@ -141,7 +166,7 @@ public class RankTowers implements Command {
     String description = "rank-towers\n";
     description += "  Usage: rank-towers [start] [end]\n";
     description += "    Retrieves a list in sorted order from least to most energy consumed\n";
-    description += "    between the [start] and [end] dates specified by the user.\n\n";
+    description += "    between the [start] and [end] dates specified by the user.";
     return description;
   }
 
