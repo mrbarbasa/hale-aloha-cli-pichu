@@ -43,4 +43,4 @@ After successful verification of the hale-aloha-cli-pichu system, development ca
   * If you wish to refer to the !JavaDocs, generate them using the following command: `ant -f javadoc.build.xml`
   * Add an issue specifying any additional features/commands you plan to develop.  Make sure to keep tabs on the status of the issue and update it whenever appropriate.
   * Develop a JUnit test case anytime during development of a new feature/command to ensure its proper functionality.
-  * Ensure that `ant -f verify.build.xml` runs successfully before committing changes to the repository.
+  * Ensure that `ant -f verify.build.xml` runs successfully before committing changes to the repository.  Then check the [http://dasha.ics.hawaii.edu:9859/job/hale-aloha-cli-pichu/ Jenkins] server to make sure that the build passes verify there as well.
