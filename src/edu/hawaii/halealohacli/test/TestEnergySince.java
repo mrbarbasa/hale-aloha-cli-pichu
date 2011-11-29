@@ -28,7 +28,7 @@ public class TestEnergySince {
     DailyEnergy de = new DailyEnergy(testSource, testDate);
     es.run();
     de.run();
-    assertTrue("Testing energy since", es.getEnergySince() > de.getDailyEnergy());
+    assertTrue("Testing energy-since", es.getEnergySince() > de.getDailyEnergy());
     
     // Test for invalid input
     boolean caught = false;

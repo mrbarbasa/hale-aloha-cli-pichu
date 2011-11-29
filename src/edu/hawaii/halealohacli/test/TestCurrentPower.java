@@ -14,16 +14,16 @@ import edu.hawaii.halealohacli.command.InvalidArgumentsException;
 public class TestCurrentPower {
   
   /**
-   * Test current power output, and invalid
+   * Tests current-power output, and invalid
    * tower name input.
    * 
-   * @throws Exception - error.
+   * @throws Exception If problems occur in retrieving data from WattDepot.
    */
   @Test
   public void testCurrentPower() throws Exception {
     CurrentPower power = new CurrentPower("Ilima");
     power.run();
-    assertTrue("Testing current power", power.getCurrentPower() > 0);
+    assertTrue("Testing current-power", power.getCurrentPower() > 0);
     
     //Input is suppose to be a tower name, but a date was entered    
     boolean caught = false;

@@ -41,9 +41,9 @@ public class RankTowers implements Command {
   /**
    * Creates a new instance of the rank-towers command.
    * 
-   * @param start the start time specified
-   * @param end the end time specified
-   * @throws InvalidArgumentsException when the arguments supplied by the user are invalid
+   * @param start the start date specified
+   * @param end the end date specified
+   * @throws InvalidArgumentsException If the arguments supplied by the user are invalid.
    */
   public RankTowers(String start, String end) throws InvalidArgumentsException {
     if (this.checkArgs(start, end)) {
@@ -72,10 +72,10 @@ public class RankTowers implements Command {
   }
   
   /**
-   * Retrieves each tower's energy and
-   * sorts data from least to most energy consumed.
+   * Retrieves each tower's energy and sorts the
+   * data from least to most energy consumed.
    * 
-   * @throws Exception - error.
+   * @throws Exception If problems occur in retrieving data from WattDepot.
    */
   private void getEnergy() throws Exception {
     // Create a Date object needed to acquire the starting and ending timestamp
@@ -103,13 +103,13 @@ public class RankTowers implements Command {
   }
   
   /**
-   * Checks if user entered a date that's out of the range.
-   * Example, if user entered 11/22, but today is 11/21 then
-   * the server doesn't have data of that date yet.
+   * Checks if the user entered a date that's out of the range.
+   * For example, if the user entered 11/22, but today is 11/21,
+   * then the server doesn't have data from 11/22 yet.
    * 
-   * @param today - today's date.
-   * @param inputDate - date that user entered.
-   * @return - value indicating if user entered date that's out of range.
+   * @param today today's date
+   * @param inputDate date that the user entered
+   * @return value indicating if the user entered a date that's out of range
    */
   public int checkDate(long today, long inputDate) {
    
@@ -120,12 +120,12 @@ public class RankTowers implements Command {
     return 0;
   }
   
-  
   /**
    * Runs this command.
    * 
-   * @throws Exception - error.
+   * @throws Exception If problems occur in retrieving data from WattDepot.
    */
+  @Override
   public void run() throws Exception {
     Date today = new Date();
     Date startDate = new SimpleDateFormat("yyyy-MM-dd", Locale.US).parse(this.start);
@@ -147,9 +147,9 @@ public class RankTowers implements Command {
   }
 
   /**
-   * Returns a string representation of the output of this command.
+   * Returns a string representation of the output of calling this command.
    * 
-   * @return the output of this command.
+   * @return the output of calling this command
    */
   @Override
   public String getOutput() {
@@ -159,7 +159,7 @@ public class RankTowers implements Command {
   /**
    * Retrieves a description of this command and its functionality.
    * 
-   * @return a description of this command.
+   * @return a description of this command and its functionality
    */
   @Override
   public String getHelp() {

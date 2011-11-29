@@ -10,17 +10,17 @@ import edu.hawaii.halealohacli.command.InvalidArgumentsException;
 import edu.hawaii.halealohacli.command.RankTowers;
 
 /**
- * 
+ * Tests the RankTowers class.
  * 
  * @author Team Pichu
  */
 public class TestRankTowers {
 
   /**
-   * Test if the dates entered actually allows
+   * Tests if the dates entered actually allows
    * the retrieval of data from the sources.
    * 
-   * @throws Exception - error.
+   * @throws Exception If problems occur in retrieving data from WattDepot.
    */
   @Test
   public void test() throws Exception {   
@@ -32,7 +32,7 @@ public class TestRankTowers {
     RankTowers test = new RankTowers("2011-11-23", dayAhead);
     test.run();
     String message = "Too early to retrieve data for the dates entered";    
-    assertEquals("Test dates", message, test.getOutput());
+    assertEquals("Testing dates", message, test.getOutput());
     
     // Test for invalid input
     boolean caught = false;
@@ -42,7 +42,7 @@ public class TestRankTowers {
     catch (InvalidArgumentsException e) {
       caught = true;
     }
-    assertSame("Test invalid input", caught, true);
+    assertSame("Testing invalid input", caught, true);
   }
 
 }

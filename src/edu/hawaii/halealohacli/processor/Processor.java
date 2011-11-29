@@ -27,22 +27,22 @@ public class Processor {
   private String test;
   
   /**
-   * Give all commands access to the valid tower, Ilima.
+   * Gives all commands access to the valid tower, Ilima.
    */
   public static final String ILIMA = "Ilima";
   
   /**
-   * Give all commands access to the valid tower, Lehua.
+   * Gives all commands access to the valid tower, Lehua.
    */
   public static final String LEHUA = "Lehua";
   
   /**
-   * Give all commands access to the valid tower, Lokelani.
+   * Gives all commands access to the valid tower, Lokelani.
    */
   public static final String LOKELANI = "Lokelani";
   
   /**
-   * Give all commands access to the valid tower, Mokihana.
+   * Gives all commands access to the valid tower, Mokihana.
    */
   public static final String MOKIHANA = "Mokihana";
   
@@ -55,7 +55,7 @@ public class Processor {
   private static final String QUIT = "quit";
   
   /**
-   * Creates a new processor instance given a String input.
+   * Creates a new processor instance given a string input.
    * 
    * @param input the string input to process
    */
@@ -66,8 +66,7 @@ public class Processor {
   }
   
   /**
-   * Parses the input to the command line interface
-   * into an array list.
+   * Parses the input to the command line interface into an array list.
    */
   private void parseInput() {
     // Trim off any leading or trailing whitespace
@@ -86,6 +85,7 @@ public class Processor {
   
   /**
    * Determines which class corresponds to the command.
+   * Handles errors by providing specific output messages to the user.
    */
   private void callCommand() {
     String expected = "Expected: ";
@@ -192,7 +192,7 @@ public class Processor {
   }
   
   /**
-   * Runs all the necessary tasks for this class.
+   * Runs all the necessary tasks for this processor.
    */
   public void run() {
     this.parseInput();

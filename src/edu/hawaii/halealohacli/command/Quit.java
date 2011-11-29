@@ -1,8 +1,8 @@
 package edu.hawaii.halealohacli.command;
 
 /**
- * Command that returns a boolean concerning
- * whether or not the program should exit.
+ * Returns a boolean concerning whether
+ * or not the program should exit.
  * 
  * @author Team Pichu
  */
@@ -23,20 +23,11 @@ public class Quit implements Command {
   }
   
   /**
-   * Not needed for the quit command.
-   * 
-   * @param args the arguments to be checked for validity
-   * @return true by default (because quit has no arguments)
-   */
-  public boolean checkArgs(String... args) {
-    return true;
-  }
-  
-  /**
    * Runs this command.
    * 
-   * @throws Exception This command doesn't really throw an exception.
+   * @throws Exception Doesn't really throw an exception.
    */
+  @Override
   public void run() throws Exception {
     this.output = "quit";
   }
@@ -46,6 +37,7 @@ public class Quit implements Command {
    * 
    * @return the output of calling this command
    */
+  @Override
   public String getOutput() {
     return this.output;
   }
@@ -53,8 +45,9 @@ public class Quit implements Command {
   /**
    * Retrieves a description of this command and its functionality.
    * 
-   * @return a description of this command
+   * @return a description of this command and its functionality
    */
+  @Override
   public String getHelp() {
     String description = "quit\n";
     description += "  Usage: quit\n";

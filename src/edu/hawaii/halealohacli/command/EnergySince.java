@@ -39,9 +39,9 @@ public class EnergySince implements Command {
   /**
    * Creates a new instance of the energy-since command.
    * 
-   * @param tower the tower specified
+   * @param tower the tower or lounge specified
    * @param date the date specified
-   * @throws InvalidArgumentsException when the arguments supplied by the user are invalid
+   * @throws InvalidArgumentsException If the arguments supplied by the user are invalid.
    */
   public EnergySince(String tower, String date) throws InvalidArgumentsException {
     if (this.checkArgs(tower, date)) {
@@ -88,7 +88,7 @@ public class EnergySince implements Command {
   }
   
   /**
-   * Parses a XMLGregorianCalendar object of format "yyyy-MM-dd'T'HH:mm:ss.mls-HH:mm"
+   * Parses an XMLGregorianCalendar object of format "yyyy-MM-dd'T'HH:mm:ss.mls-HH:mm"
    * (where the last "-HH:mm" is simply the time zone)
    * into "yyyy-MM-dd  HH:mm:ss.mls" and returns the parsed result as a string.
    * 
@@ -111,6 +111,7 @@ public class EnergySince implements Command {
    * @throws Exception If problems occur in retrieving data from WattDepot or the
    * start date provided by the user is after the date of the latest sensor data.
    */
+  @Override
   public void run() throws Exception {
     // Create a Date object needed to acquire the starting timestamp
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -126,7 +127,7 @@ public class EnergySince implements Command {
     energy /= 1000; // Because 1 watt-hour x (1 kWh / 1000 watt-hours) = 0.001 kWh
     this.energySince = energy;
     
-    // Save the output // energy-since Lehua-E 2011-11-14
+    // Save the output
     this.output = "Total energy consumption by " + this.tower + "\n";
     this.output += "  from  " + this.parseDateTime(startTime) + "\n";
     this.output += "  to    " + this.parseDateTime(endTime) + "\n";
@@ -138,6 +139,7 @@ public class EnergySince implements Command {
    * 
    * @return the output of calling this command
    */
+  @Override
   public String getOutput() {
     return this.output;
   }
@@ -145,8 +147,9 @@ public class EnergySince implements Command {
   /**
    * Retrieves a description of this command and its functionality.
    * 
-   * @return a description of this command
+   * @return a description of this command and its functionality
    */
+  @Override
   public String getHelp() {
     String description = "energy-since\n";
     description += "  Usage: energy-since [tower | lounge] [date]\n";

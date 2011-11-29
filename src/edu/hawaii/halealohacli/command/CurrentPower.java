@@ -37,8 +37,8 @@ public class CurrentPower implements Command {
   /**
    * Creates a new instance of the current-power command.
    * 
-   * @param tower the tower specified
-   * @throws InvalidArgumentsException when the arguments supplied by the user are invalid
+   * @param tower the tower or lounge specified
+   * @throws InvalidArgumentsException If the arguments supplied by the user are invalid.
    */
   public CurrentPower(String tower) throws InvalidArgumentsException {
     if (CurrentPower.checkArgs(tower)) {
@@ -53,6 +53,7 @@ public class CurrentPower implements Command {
   
   /**
    * Returns true if the argument to current-power is valid.
+   * 
    * Note that for some odd reason, PMD throws an error just
    * for CurrentPower and none of the other commands.
    * The ConstructorCallsOverridableMethod error is only
@@ -92,9 +93,9 @@ public class CurrentPower implements Command {
   
   /**
    * Checks if the tower name is actually a word
-   * instead of a date (e.g. 2011-10-31).
+   * instead of a date (e.g., 2011-10-31).
    * 
-   * @return an integer value.
+   * @return an integer value
    */
   public int checkTowerName() {
     try {
@@ -107,13 +108,14 @@ public class CurrentPower implements Command {
     }
   
   }
+  
   /**
    * Runs this command.
    * 
-   * @throws Exception - error.
+   * @throws Exception If problems occur in retrieving data from WattDepot.
    */
-  public void run() throws Exception {
-    
+  @Override
+  public void run() throws Exception {    
     if (checkTowerName() == 0) {
       this.output = "Tower name invalid.";
     }
@@ -130,24 +132,26 @@ public class CurrentPower implements Command {
   }
   
   /**
-   * Returns a string representation of the output of this command.
+   * Returns a string representation of the output of calling this command.
    * 
-   * @return the output of this command.
+   * @return the output of calling this command
    */
+  @Override
   public String getOutput() {
     return this.output;
   }
   
-  
   /**
    * Retrieves a description of this command and its functionality.
    * 
-   * @return a description of this command.
+   * @return a description of this command and its functionality
    */
+  @Override
   public String getHelp() {
     String description = "current-power\n";
     description += "  Usage: current-power [tower | lounge]\n";
     description += "    Retrieves the current power of the particular source.";
     return description;
   }
+  
 }

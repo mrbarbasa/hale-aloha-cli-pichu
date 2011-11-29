@@ -1,31 +1,31 @@
 package edu.hawaii.halealohacli.command;
 
 /**
- * Interface for the Hale Aloha CLI program commands.
+ * Interface for the hale-aloha-cli-pichu program commands.
  * 
  * @author Team Pichu
  */
 public interface Command {
   
   /**
-   * Causes command to execute "main" code for functionality.
+   * Runs the command.
    * 
    * @throws Exception Generally, if problems occur in retrieving data from WattDepot.
    */
-  void run() throws Exception;
+  public void run() throws Exception;
 
   /**
-   * Retrieves output of method.
+   * Returns a string representation of the output of calling the command.
    * 
-   * @return String output of method.
+   * @return the output of calling the command
    */
-  String getOutput();
+  public String getOutput();
 
   /**
-   * Retrieves a description of the method and its functionality.
+   * Retrieves a description of the command and its functionality.
    * 
-   * @return String description of method.
+   * @return a description of the command and its functionality
    */
-  String getHelp();
+  public String getHelp();
   
 }

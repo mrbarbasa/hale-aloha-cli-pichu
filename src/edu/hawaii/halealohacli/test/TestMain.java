@@ -10,10 +10,9 @@ import edu.hawaii.halealohacli.Main;
  * @author Team Pichu
  */
 public class TestMain {
-  // TODO: Still needs a lot of work.  May change if Reflection is implemented.
 
   /**
-   * Tests if checkConnection returns true for successful connection
+   * Tests if checkConnection returns true for a successful connection
    * to the WattDepot server.
    */
   @Test
@@ -29,7 +28,7 @@ public class TestMain {
   @Test
   public void testRun() {
     Main.run("quit");
-    assertSame("Testing if run is called successfully", Main.getRun(), true);   
+    assertSame("Testing if run is successfully called", Main.getRun(), true);   
   }
 
 }
