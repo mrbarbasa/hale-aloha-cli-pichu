@@ -22,7 +22,7 @@
 
   <!-- Basic properties for this system. -->
   <property name="system.name" value="hale-aloha-cli-pichu" />
-  <property name="majorVersionNumber" value="1" />
+  <property name="majorVersionNumber" value="2" />
   <property name="minorVersionNumber" value="0" />
   <tstamp>
     <format property="DAYSTAMP" pattern="yyyy.MM.dd.HH.mm" />
