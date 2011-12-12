@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.regex.Pattern;
+import javax.xml.datatype.XMLGregorianCalendar;
 import org.wattdepot.client.WattDepotClient;
 import edu.hawaii.halealohacli.Main;
 import edu.hawaii.halealohacli.processor.Processor;
@@ -80,6 +81,22 @@ public class CurrentPower implements Command {
       valid = true;
     }
     return valid;
+  }
+  
+  /**
+   * Parses an XMLGregorianCalendar object of format "yyyy-MM-dd'T'HH:mm:ss.mls-HH:mm"
+   * (where the last "-HH:mm" is simply the time zone)
+   * into "yyyy-MM-dd  HH:mm:ss.mls" and returns the parsed result as a string.
+   * 
+   * @param dateTime the XMLGregorianCalendar object to parse
+   * @return a string representation of the date and time
+   */
+  private String parseDateTime(XMLGregorianCalendar dateTime) {
+    String dt = String.valueOf(dateTime);
+    int indexT = dt.indexOf('T'); // 'T' separates the date from the time
+    String parsedResult = dt.substring(0, indexT) + "  "; // Acquire the date "yyyy-MM-dd  "
+    parsedResult += dt.substring(indexT + 1, dt.lastIndexOf('-')); // Add "HH:mm:ss.mls"
+    return parsedResult;
   }
   
   /**
