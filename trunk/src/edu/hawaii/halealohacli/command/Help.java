@@ -54,6 +54,8 @@ public class Help implements Command {
     this.output += es.getHelp() + newline;
     RankTowers rt = new RankTowers();
     this.output += rt.getHelp() + newline;
+    SetBaseline sb = new SetBaseline();
+    this.output += sb.getHelp() + newline;
     Help help = new Help();
     this.output += help.getHelp() + newline;
     Quit quit = new Quit();

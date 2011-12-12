@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 import edu.hawaii.halealohacli.command.CurrentPower;
 import edu.hawaii.halealohacli.command.DailyEnergy;
 import edu.hawaii.halealohacli.command.EnergySince;
+import edu.hawaii.halealohacli.command.SetBaseline;
 import edu.hawaii.halealohacli.command.Help;
 import edu.hawaii.halealohacli.command.InvalidArgumentsException;
 import edu.hawaii.halealohacli.command.Quit;
@@ -51,6 +52,7 @@ public class Processor {
   private static final String DAILY_ENERGY = "daily-energy";
   private static final String ENERGY_SINCE = "energy-since";
   private static final String RANK_TOWERS = "rank-towers";
+  private static final String SET_BASELINE = "set-baseline";
   private static final String HELP = "help";
   private static final String QUIT = "quit";
   
@@ -144,6 +146,20 @@ public class Processor {
           this.output = expected + RankTowers.ARGS + arguments;
           RankTowers rt = new RankTowers();
           this.output += rt.getHelp();
+        }
+      }
+      else if ((SET_BASELINE).equals(this.command)) {
+        if (this.components.size() == RankTowers.ARGS + 1) {
+          SetBaseline setBaseline = new SetBaseline(this.components.get(1),
+              this.components.get(2));
+          setBaseline.run();
+          this.output = setBaseline.getOutput();
+          this.test = this.command;
+        }
+        else {
+          this.output = expected + SetBaseline.ARGS + arguments;
+          SetBaseline sb = new SetBaseline();
+          this.output += sb.getHelp();
         }
       }
       else if ((HELP).equals(this.command)) {
