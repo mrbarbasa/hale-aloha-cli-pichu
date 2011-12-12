@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 import edu.hawaii.halealohacli.command.CurrentPower;
 import edu.hawaii.halealohacli.command.DailyEnergy;
 import edu.hawaii.halealohacli.command.EnergySince;
+import edu.hawaii.halealohacli.command.MonitorGoal;
 import edu.hawaii.halealohacli.command.SetBaseline;
 import edu.hawaii.halealohacli.command.Help;
 import edu.hawaii.halealohacli.command.InvalidArgumentsException;
@@ -53,6 +54,7 @@ public class Processor {
   private static final String ENERGY_SINCE = "energy-since";
   private static final String RANK_TOWERS = "rank-towers";
   private static final String SET_BASELINE = "set-baseline";
+  private static final String MONITOR_GOAL = "monitor-goal";
   private static final String HELP = "help";
   private static final String QUIT = "quit";
   
@@ -162,6 +164,21 @@ public class Processor {
           this.output += sb.getHelp();
         }
       }
+      else if ((MONITOR_GOAL).equals(this.command)) {
+        if (this.components.size() == MonitorGoal.ARGS + 1) {
+          MonitorGoal monitorGoal = new MonitorGoal(this.components.get(1), 
+          this.components.get(2), this.components.get(3));
+          monitorGoal.run();
+          this.output = monitorGoal.getOutput();
+          //this.test = this.command;
+        }
+        else {
+          this.output = expected + MonitorGoal.ARGS + arguments;
+          MonitorGoal mg = new MonitorGoal();
+          this.output += mg.getHelp();
+        }
+      }
+
       else if ((HELP).equals(this.command)) {
         // Expected arguments notice is not needed for Help, since it takes 0 arguments
         Help help = new Help();
