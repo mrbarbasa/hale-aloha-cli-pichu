@@ -22,33 +22,33 @@ import edu.hawaii.halealohacli.command.RankTowers;
  * @author Team Pichu
  */
 public class Processor {
-  
+
   private String input;
   private List<String> components;
   private String command;
   private String output;
   private String test;
-  
+
   /**
    * Gives all commands access to the valid tower, Ilima.
    */
   public static final String ILIMA = "Ilima";
-  
+
   /**
    * Gives all commands access to the valid tower, Lehua.
    */
   public static final String LEHUA = "Lehua";
-  
+
   /**
    * Gives all commands access to the valid tower, Lokelani.
    */
   public static final String LOKELANI = "Lokelani";
-  
+
   /**
    * Gives all commands access to the valid tower, Mokihana.
    */
   public static final String MOKIHANA = "Mokihana";
-  
+
   // List of commands as constants
   private static final String CURRENT_POWER = "current-power";
   private static final String DAILY_ENERGY = "daily-energy";
@@ -59,7 +59,7 @@ public class Processor {
   private static final String MONITOR_POWER = "monitor-power";
   private static final String HELP = "help";
   private static final String QUIT = "quit";
-  
+
   /**
    * Creates a new processor instance given a string input.
    * 
@@ -70,7 +70,7 @@ public class Processor {
     this.components = new ArrayList<String>();
     this.test = "fail";
   }
-  
+
   /**
    * Parses the input to the command line interface into an array list.
    */
@@ -88,7 +88,7 @@ public class Processor {
       this.command = this.input;
     }
   }
-  
+
   /**
    * Determines which class corresponds to the command.
    * Handles errors by providing specific output messages to the user.
@@ -165,7 +165,8 @@ public class Processor {
           SetBaseline sb = new SetBaseline();
           this.output += sb.getHelp();
         }
-      }/*
+      }
+      /*
       else if ((MONITOR_GOAL).equals(this.command)) {
         if (this.components.size() == MonitorGoal.ARGS + 1) {
           MonitorGoal monitorGoal = new MonitorGoal(this.components.get(1), 
@@ -180,10 +181,17 @@ public class Processor {
           this.output += mg.getHelp();
         }
       }
-*/
+       */
       else if (MONITOR_POWER.equals(this.command)) {
-        MonitorPower monPow = new MonitorPower(this.components.get(1), Integer.parseInt(this.components.get(2)));
-        monPow.run();
+        if (this.components.get(2) == null) {
+          MonitorPower monPow = new MonitorPower(this.components.get(1));
+          monPow.run();
+        } 
+        else {
+          MonitorPower monPow = new MonitorPower(
+              this.components.get(1), Integer.parseInt(this.components.get(2)));
+          monPow.run();
+        }
       }
       else if ((HELP).equals(this.command)) {
         // Expected arguments notice is not needed for Help, since it takes 0 arguments
@@ -220,7 +228,7 @@ public class Processor {
       this.output += "Please try again or try different towers/lounges/dates.";
     }
   }
-  
+
   /**
    * Returns the test string for the TestProcessor class.
    * 
@@ -229,7 +237,7 @@ public class Processor {
   public String getTest() {
     return this.test;
   }
-  
+
   /**
    * Runs all the necessary tasks for this processor.
    */
@@ -237,7 +245,7 @@ public class Processor {
     this.parseInput();
     this.callCommand();
   }
-  
+
   /**
    * Returns a string representation of the output received by the processor.
    * 
@@ -246,5 +254,5 @@ public class Processor {
   public String getOutput() {
     return this.output;
   }
-  
+
 }
