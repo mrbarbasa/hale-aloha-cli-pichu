@@ -10,7 +10,7 @@ import edu.hawaii.halealohacli.processor.Processor;
  * @author Team Pichu
  */
 public class Main {
-  
+
   private static final String URL = "http://server.wattdepot.org:8190/wattdepot/";
   private static final String QUIT = "quit";
   private static boolean checkConnection;
@@ -100,5 +100,5 @@ public class Main {
       }
     }
   }
-
+ 
 }
