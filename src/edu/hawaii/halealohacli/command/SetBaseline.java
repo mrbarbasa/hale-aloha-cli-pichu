@@ -169,7 +169,7 @@ public class SetBaseline implements Command {
    */
   @Override
   public String getHelp() {
-    String description = "energy-since\n";
+    String description = "set-baseline\n";
     description += "  Usage: set-baseline [tower | lounge] [date]\n";
     description += "    This command defines [date] as the \"baseline\" day for tower or lounge.\n";
     description += "    When this command is executed, the system should obtain and save the]\n";
