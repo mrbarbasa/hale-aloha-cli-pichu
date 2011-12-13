@@ -6,7 +6,8 @@ import java.util.StringTokenizer;
 import edu.hawaii.halealohacli.command.CurrentPower;
 import edu.hawaii.halealohacli.command.DailyEnergy;
 import edu.hawaii.halealohacli.command.EnergySince;
-import edu.hawaii.halealohacli.command.MonitorGoal;
+//import edu.hawaii.halealohacli.command.MonitorGoal;
+import edu.hawaii.halealohacli.command.MonitorPower;
 import edu.hawaii.halealohacli.command.SetBaseline;
 import edu.hawaii.halealohacli.command.Help;
 import edu.hawaii.halealohacli.command.InvalidArgumentsException;
@@ -55,6 +56,7 @@ public class Processor {
   private static final String RANK_TOWERS = "rank-towers";
   private static final String SET_BASELINE = "set-baseline";
   private static final String MONITOR_GOAL = "monitor-goal";
+  private static final String MONITOR_POWER = "monitor-power";
   private static final String HELP = "help";
   private static final String QUIT = "quit";
   
@@ -163,7 +165,7 @@ public class Processor {
           SetBaseline sb = new SetBaseline();
           this.output += sb.getHelp();
         }
-      }
+      }/*
       else if ((MONITOR_GOAL).equals(this.command)) {
         if (this.components.size() == MonitorGoal.ARGS + 1) {
           MonitorGoal monitorGoal = new MonitorGoal(this.components.get(1), 
@@ -178,7 +180,11 @@ public class Processor {
           this.output += mg.getHelp();
         }
       }
-
+*/
+      else if (MONITOR_POWER.equals(this.command)) {
+        MonitorPower monPow = new MonitorPower(this.components.get(1), Integer.parseInt(this.components.get(2)));
+        monPow.run();
+      }
       else if ((HELP).equals(this.command)) {
         // Expected arguments notice is not needed for Help, since it takes 0 arguments
         Help help = new Help();
