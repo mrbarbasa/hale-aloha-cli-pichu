@@ -145,7 +145,7 @@ public class MonitorGoal implements Command {
       SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.US);
       int hour = date.get(Calendar.HOUR_OF_DAY);
       goalPower =
-          baseline.getEnergies()[hour] - (((double) (goal / 100)) * baseline.getEnergies()[hour]);
+          baseline.getEnergies()[hour] - (( (goal / 100.0)) * baseline.getEnergies()[hour]);
       this.output = this.tower + "'s power as of " + df.format(date.getTimeInMillis());
       this.output += " was " + String.format("%.1f", power) + " kW.";
       System.out.println("The goal power is: " + goalPower);
