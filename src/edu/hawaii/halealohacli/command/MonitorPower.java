@@ -26,6 +26,8 @@ public class MonitorPower implements Command {
   private WattDepotClient client;
   private Integer interval;
   private double latestOutput;
+  private boolean running = true;
+  private MonPow monmon;
 
   /** This method takes a minimum of 1 argument.*/
   public static final int ARGS = 1;
@@ -82,14 +84,14 @@ public class MonitorPower implements Command {
    */
   @Override public void run() throws Exception {
     timer = new Timer();
-    MonPow monmon = new MonPow(this.tower, this.client);
+    monmon = new MonPow(this.tower, this.client);
     timer.scheduleAtFixedRate(monmon, 0, this.interval);
-    while (System.in.available() == 0) {
-      this.latestOutput = monmon.getPowerConsumed();
-    }
-    timer.cancel();
-    timer.purge();
-    this.latestOutput = monmon.getPowerConsumed();
+  }
+  
+  public void cancel() {
+    this.running = false;
+    this.timer.cancel();
+    this.timer.purge();
   }
   
   /**
@@ -104,7 +106,7 @@ public class MonitorPower implements Command {
    * @return the latestOutput from MonPow (usually for debugging porpoises)
    */
   public Double getLatestEnergy() {
-    return this.latestOutput;
+    return monmon.getPowerConsumed();
   }
     
   /**
@@ -135,6 +137,11 @@ public class MonitorPower implements Command {
   public int getInterval() {
     return this.interval;
   }
+
+
+  public boolean isRunning() {
+    return this.running;
+  }
 }
 
 /**
@@ -162,7 +169,7 @@ class MonPow extends TimerTask {
   public void run() {
     if (this.client != null) {
       try {
-        powerConsumed = this.client.getLatestPowerConsumed(this.sourceString);
+        powerConsumed = this.client.getLatestPowerConsumed(this.sourceString) / 1000;
         GregorianCalendar cal = Tstamp.makeTimestamp().toGregorianCalendar();
         System.out.format("Timestamp: %tD %tl:%tM        Power Consumed: %f%n", 
             cal, cal, cal, powerConsumed);

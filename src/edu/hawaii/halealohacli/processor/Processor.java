@@ -28,6 +28,7 @@ public class Processor {
   private String command;
   private String output;
   private String test;
+  private SetBaseline baseline;
 
   /**
    * Gives all commands access to the valid tower, Ilima.
@@ -65,18 +66,19 @@ public class Processor {
    * 
    * @param input the string input to process
    */
-  public Processor(String input) {
-    this.input = input;
-    this.components = new ArrayList<String>();
-    this.test = "fail";
+  public Processor() {
+    /*this.components = new ArrayList<String>();
+    this.test = "fail";*/
   }
 
   /**
    * Parses the input to the command line interface into an array list.
    */
-  private void parseInput() {
+  private void parseInput(String input) {
     // Trim off any leading or trailing whitespace
-    this.input = this.input.trim();
+    this.components = new ArrayList<String>();
+    this.input = input.trim();
+    //String[] arr = 
     StringTokenizer st = new StringTokenizer(this.input);
     while (st.hasMoreTokens()) {
       this.components.add(st.nextToken());
@@ -154,10 +156,10 @@ public class Processor {
       }
       else if ((SET_BASELINE).equals(this.command)) {
         if (this.components.size() == RankTowers.ARGS + 1) {
-          SetBaseline setBaseline = new SetBaseline(this.components.get(1),
+          this.baseline = new SetBaseline(this.components.get(1),
               this.components.get(2));
-          setBaseline.run();
-          this.output = setBaseline.getOutput();
+          baseline.run();
+          this.output = baseline.getOutput();
           this.test = this.command;
         }
         else {
@@ -168,15 +170,19 @@ public class Processor {
       }
       else if ((MONITOR_GOAL).equals(this.command)) {
         if (this.components.size() == MonitorGoal.ARGS + 1) {
-          MonitorGoal monitorGoal = new MonitorGoal(this.components.get(1), 
+          MonitorGoal monitorGoal = new MonitorGoal(this.baseline, this.components.get(1), 
               this.components.get(2), this.components.get(3));
           monitorGoal.run();
-          this.output = monitorGoal.getOutput();
+          while(System.in.available() == 0) {
+            System.out.println(monitorGoal.getOutput());
+          }
+          monitorGoal.cancel();
+          //this.output = monitorGoal.getOutput();
           //this.test = this.command;
         }
         else {
           this.output = expected + MonitorGoal.ARGS + arguments;
-          MonitorGoal mg = new MonitorGoal();
+          MonitorGoal mg = new MonitorGoal(baseline);
           this.output += mg.getHelp();
         }
       }
@@ -186,6 +192,10 @@ public class Processor {
           monPow = new MonitorPower(
               this.components.get(1), this.components.get(2));
           monPow.run();
+          while(System.in.available() == 0) {
+            Thread.sleep(1);
+          }
+          monPow.cancel();
         } 
         catch (IndexOutOfBoundsException e) {
           if (this.components.size() == 1) {
@@ -197,6 +207,10 @@ public class Processor {
             monPow = new MonitorPower(
                 this.components.get(1));
             monPow.run();
+            while(System.in.available() == 0) {
+              Thread.sleep(1);
+            }
+            monPow.cancel();
           }
         }
         this.test = this.command;
@@ -251,8 +265,8 @@ public class Processor {
   /**
    * Runs all the necessary tasks for this processor.
    */
-  public void run() {
-    this.parseInput();
+  public void run(String input) {
+    this.parseInput(input);
     this.callCommand();
   }
 

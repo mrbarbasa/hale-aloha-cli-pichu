@@ -23,6 +23,8 @@ public class MonitorGoal implements Command {
   private int goal;
   private int interval;
   private double power;
+  private MonitorPower monPow;
+  private SetBaseline baseline;
   /**
    * The command energy-since takes 3 arguments.
    */
@@ -31,7 +33,8 @@ public class MonitorGoal implements Command {
   /**
    * Creates a new instance of the energy-since command.
    */
-  public MonitorGoal() {
+  public MonitorGoal(SetBaseline baseline) {
+    this.baseline = baseline;
     this.output = "";
   }
 
@@ -43,9 +46,10 @@ public class MonitorGoal implements Command {
    * @param interval the time interval
    * @throws InvalidArgumentsException If the arguments supplied by the user are invalid.
    */
-  public MonitorGoal(String tower, String goal, String interval) throws InvalidArgumentsException {
+  public MonitorGoal(SetBaseline baseline, String tower, String goal, String interval) throws InvalidArgumentsException {
   //  if (this.checkArgs(tower, goal, interval)) {
       this.client = Main.CLIENT;
+      this.baseline = baseline;
       this.tower = tower;
       this.goal = Integer.parseInt(goal);
       this.interval = Integer.parseInt(interval);
@@ -131,27 +135,32 @@ public class MonitorGoal implements Command {
    */
   @Override
   public void run() throws Exception {
-    SetBaseline baseline = new SetBaseline();
-    double goalPower = 0;
+     double goalPower = 0;
+     System.out.println("BASELINE: " + this.baseline);
     if (checkTowerName() == 0) {
       this.output = "Tower name invalid.";
     }
     else {
-      double power = this.client.getLatestPowerConsumed(this.tower);
-      power /= 1000;
-      Calendar date = Calendar.getInstance(Locale.US);
-      SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.US);
-      int hour = date.get(Calendar.HOUR_OF_DAY);
-      goalPower =
-          baseline.getEnergies()[hour] - (( (goal / 100.0)) * baseline.getEnergies()[hour]);
-      this.output = this.tower + "'s power as of " + df.format(date.getTimeInMillis());
-      this.output += " was " + String.format("%.1f", power) + " kW.";
-      System.out.println("The goal power is: " + goalPower);
-      if (power < goalPower) {
-        System.out.println("The goal is reached.");
-      }
-      else {
-        System.out.println("The goal is not reached.");
+      monPow = new MonitorPower(this.tower);
+      monPow.run();
+      while(monPow.isRunning()) {
+        double power = monPow.getLatestEnergy();
+        Calendar date = Calendar.getInstance(Locale.US);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.US);
+        int hour = date.get(Calendar.HOUR_OF_DAY);
+        goalPower =
+            this.baseline.getEnergies()[hour] * (this.goal / 100);
+        this.output = this.tower + "'s power as of " + df.format(date.getTimeInMillis());
+        this.output += " was " + String.format("%.1f", power) + " kW.";
+        System.out.println("The goal power is: " + goalPower);
+        if (power < goalPower) {
+          System.out.println("The goal is reached.");
+        }
+        else {
+          System.out.println("The goal is not reached.");
+        }
+        System.out.println(this.output);
+        Thread.sleep(monPow.getInterval());
       }
     }
   }
@@ -188,7 +197,6 @@ public class MonitorGoal implements Command {
     return interval;
   }
 
-  
 
   /**
    * get the power.
@@ -204,6 +212,10 @@ public class MonitorGoal implements Command {
    */
   public void setPower(double power) {
     this.power = power;
+  }
+
+  public void cancel() {
+    monPow.cancel();
   }
 
 }
