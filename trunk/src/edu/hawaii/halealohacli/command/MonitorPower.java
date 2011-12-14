@@ -27,6 +27,9 @@ public class MonitorPower implements Command {
   private Integer interval;
   private double latestOutput;
 
+  /** This method takes a minimum of 1 argument.*/
+  public static final int ARGS = 1;
+  
   /**
    * Creates a new instance of the monitor-power command.
    */
@@ -109,12 +112,11 @@ public class MonitorPower implements Command {
    * @return usage string
    */
   @Override public String getHelp() {
-    return "monitor-power\n  Usage: monitor-power [tower | lounge] [interval]\n" +
-        "    This command prints out a timestamp and the current power for\n" +
-        "    [tower | lounge] every [interval] seconds.  [interval] is an optional\n" +
-        "    integer greater than 0 and defaults to 10 seconds. Entering any character\n" +
-        "    (such as a carriage return) stops this monitoring process and returns the\n" +
-        "    user to the command loop.";
+    return "USAGE: monitor-power [tower | lounge] [interval]\n" +
+        "This command prints out a timestamp and the current power for " +
+        "[tower | lounge] every [interval] seconds.\n  [interval] is an optional" +
+        " integer greater than 0 and defaults to 10 seconds.\n Entering any character" +
+        " (such as a carriage return) stops this monitoring process\n";
   }
   
   /**
