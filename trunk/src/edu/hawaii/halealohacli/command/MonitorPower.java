@@ -22,26 +22,47 @@ import edu.hawaii.halealohacli.Main;
 public class MonitorPower implements Command {
 
   private String tower;
+  private Timer timer;
   private WattDepotClient client;
-  private int interval;
+  private Integer interval;
   private double latestOutput;
 
   /**
    * Instantiates a new MonitorPower class.
    * @param tower the tower to query
-   * @param interval an optional interval
+   * @param intervalString an optional interval
    */
-  public MonitorPower(String tower, int... interval) {
+  public MonitorPower(String tower, String... intervalString) {
     this.client = Main.CLIENT;
     this.tower = tower;
-    if (interval[0] == 0) {
-      this.interval = 10000;
-    } 
-    else {
-      this.interval = interval[0] * 1000;
+    try {
+      interval = Integer.parseInt(intervalString[0]) * 1000;
+    }
+    catch (ArrayIndexOutOfBoundsException e) {
+      interval = 10000;
     }
   }
 
+  /**
+   * Run MonitorPower a number of times.
+   * @param times the amount of times to run
+   * @throws Exception upon error with the server
+   */
+  public void runTimes(int times) throws Exception {
+    timer = new Timer();
+    int i = 0;
+    MonPow monmon = new MonPow(this.tower, this.client);
+    timer.scheduleAtFixedRate(monmon, 0, this.interval);
+    while (System.in.available() == 0 && i < times) {
+      this.latestOutput = monmon.getPowerConsumed();
+      Thread.sleep(this.interval);
+      i++;
+    }
+    timer.cancel();
+    timer.purge();
+    this.latestOutput = monmon.getPowerConsumed();
+  }
+  
   /**
    * Creates a timer and a new MonPow class.
    * Schedules the timer task and stays in the loop
@@ -49,7 +70,7 @@ public class MonitorPower implements Command {
    * @throws Exception upon error with the server
    */
   @Override public void run() throws Exception {
-    Timer timer = new Timer();
+    timer = new Timer();
     MonPow monmon = new MonPow(this.tower, this.client);
     timer.scheduleAtFixedRate(monmon, 0, this.interval);
     while (System.in.available() == 0) {
@@ -57,8 +78,9 @@ public class MonitorPower implements Command {
     }
     timer.cancel();
     timer.purge();
+    this.latestOutput = monmon.getPowerConsumed();
   }
-
+  
   /**
    * Not sure what to do with this one.
    * @return the output I guess
@@ -66,7 +88,14 @@ public class MonitorPower implements Command {
   @Override public String getOutput() {
     return Double.toString(this.latestOutput);
   }
-
+  
+  /**
+   * @return the latestOutput from MonPow (usually for debugging porpoises)
+   */
+  public Double getLatestEnergy() {
+    return this.latestOutput;
+  }
+    
   /**
    * For use with processor class.
    * @return usage string
@@ -86,8 +115,15 @@ public class MonitorPower implements Command {
    * @throws Exception Upon error with the server
    */
   public static void main(String[] args) throws Exception {
-    MonitorPower pow = new MonitorPower("Ilima", 5);
-    pow.run();
+    MonitorPower pow = new MonitorPower("Ilima");
+    pow.runTimes(1);
+  }
+  
+  /**
+   * @return the interval to wait
+   */
+  public int getInterval() {
+    return this.interval;
   }
 }
 

@@ -35,6 +35,7 @@ public class TestProcessor {
     assertTrue("Testing that daily-energy is called", ("daily-energy").equals(pro.getTest()));
   }
   
+  
   /**
    * Confirms that the energy-since command is called.
    * 
@@ -58,6 +59,18 @@ public class TestProcessor {
     pro.run();
     assertTrue("Testing that rank-towers is called", ("rank-towers").equals(pro.getTest()));
   }
+  /*
+  /**
+   * Confirms that monitor-power is called.
+   * 
+   * @throws Exception upon error with Processor
+   */
+  /*@Test public void TestMonitorPower() throws Exception {
+    Processor pro = new Processor("monitor-power");
+    pro.run();
+    System.out.println("LKJDS " + pro.getTest());
+    assertTrue("Testing if monitor-power was called", ("monitor-power").equals(pro.getTest()));
+  }*/
   
   /**
    * Confirms that the help command is called.
@@ -94,5 +107,7 @@ public class TestProcessor {
     pro.run();
     assertTrue("Testing that an invalid command is called", ("fail").equals(pro.getTest()));
   }
+  
+ 
   
 }

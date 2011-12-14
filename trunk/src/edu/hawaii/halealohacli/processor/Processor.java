@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 import edu.hawaii.halealohacli.command.CurrentPower;
 import edu.hawaii.halealohacli.command.DailyEnergy;
 import edu.hawaii.halealohacli.command.EnergySince;
-//import edu.hawaii.halealohacli.command.MonitorGoal;
+import edu.hawaii.halealohacli.command.MonitorGoal;
 import edu.hawaii.halealohacli.command.MonitorPower;
 import edu.hawaii.halealohacli.command.SetBaseline;
 import edu.hawaii.halealohacli.command.Help;
@@ -166,11 +166,10 @@ public class Processor {
           this.output += sb.getHelp();
         }
       }
-      /*
       else if ((MONITOR_GOAL).equals(this.command)) {
         if (this.components.size() == MonitorGoal.ARGS + 1) {
           MonitorGoal monitorGoal = new MonitorGoal(this.components.get(1), 
-          this.components.get(2), this.components.get(3));
+              this.components.get(2), this.components.get(3));
           monitorGoal.run();
           this.output = monitorGoal.getOutput();
           //this.test = this.command;
@@ -181,17 +180,19 @@ public class Processor {
           this.output += mg.getHelp();
         }
       }
-       */
       else if (MONITOR_POWER.equals(this.command)) {
-        if (this.components.get(2) == null) {
-          MonitorPower monPow = new MonitorPower(this.components.get(1));
-          monPow.run();
+        MonitorPower monPow = null;
+        try {
+          monPow = new MonitorPower(
+              this.components.get(1), this.components.get(2));
         } 
-        else {
-          MonitorPower monPow = new MonitorPower(
-              this.components.get(1), Integer.parseInt(this.components.get(2)));
-          monPow.run();
+        catch (IndexOutOfBoundsException e) {
+          monPow = new MonitorPower(
+              this.components.get(1));
         }
+        monPow.run();
+        this.test = this.command;
+        this.output = monPow.getOutput();
       }
       else if ((HELP).equals(this.command)) {
         // Expected arguments notice is not needed for Help, since it takes 0 arguments
