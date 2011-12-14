@@ -28,6 +28,14 @@ public class MonitorPower implements Command {
   private double latestOutput;
 
   /**
+   * Creates a new instance of the monitor-power command.
+   */
+  public MonitorPower() {
+    this.latestOutput = 0.0;
+  }
+
+  
+  /**
    * Instantiates a new MonitorPower class.
    * @param tower the tower to query
    * @param intervalString an optional interval
@@ -101,12 +109,12 @@ public class MonitorPower implements Command {
    * @return usage string
    */
   @Override public String getHelp() {
-    return "USAGE: monitor-power [tower | lounge] [interval]\n" +
-        "This command prints out a timestamp and the current power for " +
-        "[tower | lounge] every [interval] seconds.  [interval] is an optional" +
-        " integer greater than 0 and defaults to 10 seconds. Entering any character" +
-        " (such as a carriage return) stops this monitoring process and returns the" +
-        "  user to the command loop";
+    return "monitor-power\n  Usage: monitor-power [tower | lounge] [interval]\n" +
+        "    This command prints out a timestamp and the current power for\n" +
+        "    [tower | lounge] every [interval] seconds.  [interval] is an optional\n" +
+        "    integer greater than 0 and defaults to 10 seconds. Entering any character\n" +
+        "    (such as a carriage return) stops this monitoring process and returns the\n" +
+        "    user to the command loop.";
   }
   
   /**
