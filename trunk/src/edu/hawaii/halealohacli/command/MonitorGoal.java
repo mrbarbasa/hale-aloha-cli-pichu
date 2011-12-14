@@ -3,11 +3,9 @@ package edu.hawaii.halealohacli.command;
 
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.regex.Pattern;
 import javax.xml.datatype.XMLGregorianCalendar;
 import org.wattdepot.client.WattDepotClient;
 import edu.hawaii.halealohacli.Main;
-import edu.hawaii.halealohacli.processor.Processor;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -46,15 +44,15 @@ public class MonitorGoal implements Command {
    * @throws InvalidArgumentsException If the arguments supplied by the user are invalid.
    */
   public MonitorGoal(String tower, String goal, String interval) throws InvalidArgumentsException {
-    if (this.checkArgs(tower, goal, interval)) {
+  //  if (this.checkArgs(tower, goal, interval)) {
       this.client = Main.CLIENT;
       this.tower = tower;
       this.goal = Integer.parseInt(goal);
       this.interval = Integer.parseInt(interval);
-    }
+/*    }
     else {
       throw new InvalidArgumentsException();
-    }
+    }*/
   }
 
   /**
@@ -63,7 +61,7 @@ public class MonitorGoal implements Command {
    * @param args the arguments to be checked for validity
    * @return true if all arguments are valid; false otherwise
    */
-  public boolean checkArgs(String... args) {
+  /*public boolean checkArgs(String... args) {
     boolean valid = false;
     String lounge = "-[A-E]";
     if (((Processor.ILIMA).equals(args[0]) 
@@ -80,7 +78,7 @@ public class MonitorGoal implements Command {
     }
 
     return valid;
-  }
+  }*/
 
   /**
    * Returns the value of the energy consumed since the date specified.
