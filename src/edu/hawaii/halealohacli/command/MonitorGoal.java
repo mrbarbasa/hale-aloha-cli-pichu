@@ -12,8 +12,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
- * Retrieves the energy consumed by a source from the and. compare it with the baseline to see if we
- * reach the goal
+ * Retrieves the energy consumed by a source from the user 
+ * and compares it with the baseline to see if the goal is reached.
  * 
  * @author Yong Hong Hsu
  */

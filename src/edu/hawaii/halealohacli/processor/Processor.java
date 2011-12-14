@@ -185,14 +185,22 @@ public class Processor {
         try {
           monPow = new MonitorPower(
               this.components.get(1), this.components.get(2));
+          monPow.run();
         } 
         catch (IndexOutOfBoundsException e) {
-          monPow = new MonitorPower(
-              this.components.get(1));
+          if (this.components.size() == 1) {
+            this.output = expected + "at least " + 2 + arguments;
+            monPow = new MonitorPower("");
+            this.output += monPow.getHelp();
+          }
+          else {
+            monPow = new MonitorPower(
+                this.components.get(1));
+            monPow.run();
+          }
         }
-        monPow.run();
         this.test = this.command;
-        this.output = monPow.getOutput();
+//        this.output = monPow.getOutput();
       }
       else if ((HELP).equals(this.command)) {
         // Expected arguments notice is not needed for Help, since it takes 0 arguments
@@ -225,6 +233,7 @@ public class Processor {
     }
     catch (Exception e) { // All other types of exceptions
       // Most likely thrown due to a WattDepot server error in fetching the data
+      e.printStackTrace();
       this.output = "No data received.\n";
       this.output += "Please try again or try different towers/lounges/dates.";
     }
