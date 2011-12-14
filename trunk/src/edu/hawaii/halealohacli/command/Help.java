@@ -56,7 +56,7 @@ public class Help implements Command {
     this.output += rt.getHelp() + newline;
     SetBaseline sb = new SetBaseline();
     this.output += sb.getHelp() + newline;
-    MonitorGoal mg = new MonitorGoal();
+    MonitorGoal mg = new MonitorGoal(null);
     this.output += mg.getHelp() + newline;
     MonitorPower mp = new MonitorPower();
     this.output += mp.getHelp() + newline;

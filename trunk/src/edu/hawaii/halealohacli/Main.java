@@ -15,11 +15,16 @@ public class Main {
   private static final String QUIT = "quit";
   private static boolean checkConnection;
   private static boolean run = false;
+  private Processor pro;
   
   /**
    * Gives all commands access to the WattDepot client.
    */
   public static final WattDepotClient CLIENT = new WattDepotClient(URL);
+  
+  public Main() {
+    this.pro = new Processor();
+  }
   
   /**
    * Returns true if a successful connection to the WattDepot
@@ -64,9 +69,8 @@ public class Main {
    * @param input the command and arguments that the user has input
    * @return the output the processor has received from a command
    */
-  public static String run(String input) {
-    Processor pro = new Processor(input);
-    pro.run();
+  public String run(String input) {
+    this.pro.run(input);
     run = true;
     return pro.getOutput();
   }
@@ -77,10 +81,12 @@ public class Main {
    * @param args no command line arguments required
    */
   public static void main(String[] args) {
+    Main main = new Main();
     checkConnection(); // Initially check that the connection to the server is healthy    
     Scanner scan = new Scanner(System.in);
     String input = "";
     boolean quit = false;
+    main.pro = new Processor();
     // Main loop that runs the program until the quit command is processed
     while (!quit) {
       if (!CLIENT.isHealthy()) { // Check connection to the server before each loop
@@ -90,7 +96,7 @@ public class Main {
       }
       System.out.print("> ");
       input = scan.nextLine();
-      String output = Main.run(input);
+      String output = main.run(input);
       if ((QUIT).equals(output)) {
         quit = true;
         System.out.println("Concerned about energy and power?  You're awesome!  See ya!");

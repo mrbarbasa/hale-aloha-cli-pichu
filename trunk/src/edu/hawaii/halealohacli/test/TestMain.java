@@ -27,7 +27,8 @@ public class TestMain {
    */
   @Test
   public void testRun() {
-    Main.run("quit");
+    Main test = new Main();
+    test.run("quit");
     assertSame("Testing if run is successfully called", Main.getRun(), true);   
   }
 
